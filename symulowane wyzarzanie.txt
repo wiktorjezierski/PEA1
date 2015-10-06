@@ -1,0 +1,13 @@
+- Wybierz dowoln¹ permutacjê n miast (ciecz).
+  - Dokonaj (próbnej) permutacji dwóch miast. Je¿eli zmiana taka obni¿a ca³kowit¹ d³ugoœæ, to permutacjê tê   akceptuj.  Je¿eli wyd³u¿a, to zmianê akceptuj z prawdopodobieñstwem  zale¿nym od wielkoœci wyd³u¿enia (im wiêksze wyd³u¿enie tym mniejsze prawdopodobieñstwo).
+- Procedurê konytnuuj, zmniejszaj¹c stopniowo mo¿liwoœæ wyd³u¿enia (sch³adzanie).
+
+https://tdb0.wordpress.com/2010/12/03/symulowane-wyzarzanie/
+ak widaæ, sama idea algorytmu jest bardzo prosta, jeszcze prostsze jest to, jak to zastosowaæ w przypadku problemów przez nas rozpatrywanych – zarówno w przypadku komiwoja¿era, jak i szeregowania wystarczy po prostu zamieniæ ze sob¹ dwa elementy aktualnie rozpatrywanej permutacji i przeliczyæ dla nich kryterium. I to wszystko.
+
+Innym sposobem na rozwi¹zanie problemu komiwoja¿era jest u¿ycie algorytmu heurystycznego, pozwalaj¹cego na znalezienie w krótkim czasie rozwi¹zania bliskiego optymalnemu. Popularnym algorytmem heurystycznym, u¿ywanym do rozwi¹zania tego problemu jest algorytm symulowanego wy¿arzania. Przyjmuje on najpierw losow¹ konfiguracjê pocz¹tkow¹, a nastêpnie przeszukuje przestrzeñ alternatywnych rozwi¹zañ problemu w celu osi¹gniêcia najlepszego wyniku. Podczas pracy algorytmu testuje siê podmiany losowych po³¹czeñ - jeœli otrzymana w ten sposób droga jest krótsza, pozostawia siê j¹, jeœli natomiast jest d³u¿sza, jej pozostawienie jest kwesti¹ losow¹, uzale¿nion¹ od temperatury uk³adu. Parametr temperatury pozwala okreœliæ, jak bardzo odleg³e po³¹czenia maj¹ szansê na losowe uzglêdnienie do grafu drogi. Losowe zmiany takie, mimo i¿ lokalnie psuj¹ ustalon¹ œcie¿kê, pozwalaj¹ na odnalezienie rozwi¹zania bardziej globalnego. Wraz ze sch³adzaniem uk³adu, mo¿liwe staj¹ jedynie zamiany poprawiaj¹ce d³ugoœæ drogi, lub pogarszaj¹ce j¹ bardzo nieznacznie. 
+Nazwa "symulowane wy¿arzanie" zwi¹zana jest z podobieñstwem tego algorytmu do procesu wy¿arzania metali, w którym poprzez powolne studzenie metal przechodzi od fazy p³ynnej do struktury krystalicznej o najni¿szej energii.
+Uwzglêdniono zapis bie¿¹cej pracy algorytmu (aktualnych wartoœci parametrów) jak i listê wyników. 
+
+
+
