@@ -11,3 +11,12 @@ Uwzglêdniono zapis bie¿¹cej pracy algorytmu (aktualnych wartoœci parametrów) jak
 
 
 
+Moja propozycja na realizacje:
+1. do wygenerowania przykladowej sciezki komiwojazera uzyjemy prima/kruskala (ze sdizo) i zapisujemy 
+2. potrzebny jest licznik obecnego przebiegu petli - licznik/liczba miast da nam procent, którego u¿yjemy jako % wyzarzania
+3. zamieniamy jedno polaczenie(takie ktore spelnia okreslone warunki dla komiwojazera) nastepnie sprawdzamy jak sie zmienila dlugosc trasy, jesli sie zmniejszyla lub zwiekszy³a, ale zwiekszona < (obecna dlugosc + obecna dlugosc * %) to zatwierdzamy zmiany
+4. z kazdym obiegiem petli licznik obecnego przebiegu petli zostaje zmniejszony i na nowo przeliczony %
+5. konczymy kiedy licznik dojdzie do zera, sprawdzamy dlugosci, uzyskana z wyzazania i z prima/kruskala, wyswietlamy lepsza opcje
+
+
+
