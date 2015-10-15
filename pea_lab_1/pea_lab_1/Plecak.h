@@ -66,7 +66,15 @@ public:
 	void push(Wezel* element)
 	{
 		wezly.push_back(element);
-		sortuj();
+		for (int i = 0; i < size(); i++)	//albo ta petla albo sortuj
+		{
+			if (wezly[i]->ograniczenie < element->ograniczenie)
+			{
+				wezly.insert(wezly.begin()+i+1,element);
+			}
+		} 
+
+		//sortuj();
 	}
 
 	void sortuj()

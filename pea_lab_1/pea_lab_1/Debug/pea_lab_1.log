@@ -1,17 +1,17 @@
-﻿Build started 2015-10-15 13:20:50.
+﻿Build started 2015-10-15 14:47:35.
      1>Project "D:\c++\PEA_1\pea_lab_1\pea_lab_1\pea_lab_1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          E:\Program Files\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\pea_lab_1.pch" /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt pea_lab_1.cpp
          pea_lab_1.cpp
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(76): warning C4018: '<': signed/unsigned mismatch
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(79): warning C4018: '<': signed/unsigned mismatch
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(297): warning C4018: '<': signed/unsigned mismatch
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(309): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(323): warning C4018: '<': signed/unsigned mismatch
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(614): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(668): warning C4018: '<': signed/unsigned mismatch
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(615): warning C4101: 'start': unreferenced local variable
-     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(615): warning C4101: 'koniec': unreferenced local variable
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(84): warning C4018: '<': signed/unsigned mismatch
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(87): warning C4018: '<': signed/unsigned mismatch
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(305): warning C4018: '<': signed/unsigned mismatch
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(317): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(331): warning C4018: '<': signed/unsigned mismatch
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(621): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(675): warning C4018: '<': signed/unsigned mismatch
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(622): warning C4101: 'start': unreferenced local variable
+     1>d:\c++\pea_1\pea_lab_1\pea_lab_1\plecak.h(622): warning C4101: 'koniec': unreferenced local variable
        Link:
          E:\Program Files\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\c++\PEA_1\pea_lab_1\Debug\pea_lab_1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\c++\PEA_1\pea_lab_1\Debug\pea_lab_1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\c++\PEA_1\pea_lab_1\Debug\pea_lab_1.lib" /MACHINE:X86 Debug\pea_lab_1.obj
          Debug\stdafx.obj
@@ -20,4 +20,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.38
+Time Elapsed 00:00:01.39
