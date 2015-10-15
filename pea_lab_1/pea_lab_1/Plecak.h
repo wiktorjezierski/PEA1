@@ -5,6 +5,7 @@
 #include <time.h>
 #include <ctime>
 #include <queue>
+#include <functional>
 using namespace std;
 
 
@@ -26,7 +27,7 @@ struct Wezel
 {
 	 int poziom;
 	 int indeks;
-	 int ograniczenie;
+	 int ograniczenie;	//wartosc granicy wierzcho³ka??
 	 int waga;
 	 int wartosc;
 	Wezel *przodek;
@@ -53,10 +54,87 @@ bool porownaj(Przedmiot pierwszy, Przedmiot drugi)
 
 
 }
+
+class priority_queue_my
+{
+
+	vector<Wezel*> wezly;
+public:
+	//priority_queue(){}
+	//~priority_queue(){}
+
+	void push(Wezel* element)
+	{
+		wezly.push_back(element);
+		sortuj();
+	}
+
+	void sortuj()
+	{
+		bool test = false;
+		//cout << "wydruk kontorlny funkcji sortuj z kolejki priorytetowej\n";
+		for (int i = 0; i < wezly.size();i++)
+		{
+			test = false;
+			for (int j = 0; j < wezly.size() - 1; j++)
+			{
+				if (wezly[j]->ograniczenie < wezly[j + 1]->ograniczenie)
+				{
+					Wezel * temp = wezly[j];
+					wezly[j] = wezly[j + 1];
+					wezly[j + 1] = temp;
+					test = true;
+				}
+			}
+
+			if (test == false)
+				break;
+		}
+	}
+
+	/*bool porownajwezly(Wezel* pierwszy, Wezel* drugi)
+	{
+		if (pierwszy->ograniczenie > drugi->ograniczenie)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}*/
+
+	int size()
+	{
+		return wezly.size();
+	}
+
+	Wezel* front()
+	{
+		return wezly[0];
+	}
+
+	void pop()
+	{
+		wezly.erase(wezly.begin());
+	}
+
+	bool empty()
+	{
+		if (wezly.size() == 0)
+			return true;
+		else
+			return false;
+		return true;
+	}
+
+};
+
 class Plecak
 {
 	Wezel *najlepszy;
 	queue<Wezel*>kolejka_wezlow;
+	priority_queue_my kolejka_priorytetowa;
 
 	int pojemnosc;
 	int ilosc_elementow;
@@ -349,6 +427,119 @@ public:
 			
 		}
 	}
+	void best_first()
+	{
+		Wezel nie_ustawiony;
+		najlepszy = NULL;
+		Wezel *lewy;
+		Wezel *prawy;
+		//for (int i = 0; i < wektor_przedmiotow.size(); i++)
+		//{
+					
+				Wezel *wezel = new Wezel();			//warunki poczatkowe
+				wezel->przodek = NULL;
+				wezel->lewy_potomek = &nie_ustawiony;
+				wezel->prawy_potomek = &nie_ustawiony;
+				wezel->poziom = 0;
+				wezel->ograniczenie = ograniczenie(0, 0, 0);
+				wezel->waga = 0;
+				wezel->wartosc = 0;
+				kolejka_priorytetowa.push(wezel);
+				najlepszy = wezel;
+				
+
+			
+			volatile int pomocnicza = wektor_przedmiotow.size();
+			
+			for (int j = 0; j < pomocnicza; j++)
+			{
+				Wezel *pom = kolejka_priorytetowa.front();
+				//usuniecie elementu z pocz¹tku kolejki
+				kolejka_priorytetowa.pop();
+				//ustawianie lewego potomka
+				if (pom->lewy_potomek == &nie_ustawiony)
+				{
+					lewy = new Wezel();
+					pom->lewy_potomek = lewy;
+					lewy->przodek = pom;
+					lewy->wartosc = pom->wartosc + wektor_przedmiotow[pom->poziom].wartosc;
+					lewy->waga = pom->waga + wektor_przedmiotow[pom->poziom].rozmiar;
+					lewy->poziom = pom->poziom + 1;
+					lewy->indeks = 1;
+					if (lewy->waga > pojemnosc)
+					{
+						lewy->ograniczenie = 0;
+						//gdy weze³ jest nieobiecuj¹cy 
+						lewy->lewy_potomek = NULL;
+						lewy->prawy_potomek = NULL;
+					}
+					else
+					{
+						lewy->ograniczenie = ograniczenie(lewy->poziom, lewy->waga, lewy->wartosc);
+						if (lewy->ograniczenie < najlepszy->wartosc) 
+						{
+							lewy->lewy_potomek = NULL;
+							lewy->prawy_potomek = NULL;
+						}
+						else										//obiecujacy
+						{
+							lewy->lewy_potomek = &nie_ustawiony;
+							lewy->prawy_potomek = &nie_ustawiony;
+						}
+						if (lewy->wartosc > najlepszy->wartosc)
+						{
+							najlepszy = lewy;
+						}
+
+					}
+					kolejka_priorytetowa.push(lewy);
+				}
+				if (pom->prawy_potomek == &nie_ustawiony)
+				{
+					prawy = new Wezel();
+					pom->prawy_potomek = prawy;
+					prawy->przodek = pom;
+					prawy->wartosc = pom->wartosc;
+					prawy->waga = pom->waga;
+					prawy->poziom = pom->poziom + 1;
+					prawy->indeks = 0;
+
+					if (prawy->waga > pojemnosc)
+					{
+						prawy->ograniczenie = 0;
+						//gdy weze³ jest nieobiecuj¹cy 
+						prawy->lewy_potomek = NULL;
+						prawy->prawy_potomek = NULL;
+					}
+					else
+					{
+						prawy->ograniczenie = ograniczenie(prawy->poziom, prawy->waga, prawy->wartosc);
+
+						if (prawy->ograniczenie < najlepszy->wartosc)
+						{
+							prawy->lewy_potomek = NULL;
+							prawy->prawy_potomek = NULL;
+						}
+						else
+						{
+							prawy->lewy_potomek = &nie_ustawiony;
+							prawy->prawy_potomek = &nie_ustawiony;
+						}
+						if (prawy->wartosc > najlepszy->wartosc)
+						{
+							najlepszy = prawy;
+						}
+
+					}
+					kolejka_priorytetowa.push(prawy);
+				}
+
+
+			}
+
+
+		//}
+	}
 	void wyswietl_wybrane_elementy()
 	{
 		Wezel *tymczasowy;
@@ -379,8 +570,20 @@ public:
 	//////////////////////////
 	void zarzadzaj()		//tutaj dodac logike zarzadzania wyborem algorytmu, wszerz czy wglab
 	{
-		branch_and_bound();
-		//dorzucic tu wywolanie drugiego algorytmu
+		int menu;
+		cout << "\nwybor algorytmu\n 1 - branch and bound\n 2 - best first\n";
+		cin >> menu;
+		
+		if (menu == 1)
+		{
+			cout << "\nwybrales algorytm branch and bound\n";
+			branch_and_bound();
+		}
+		else if (menu == 2)
+		{
+			cout << "\nwybrales algorytm best first\n";
+			best_first();
+		}
 
 
 		int wybor;
@@ -484,3 +687,47 @@ public:
 	}
 
 };
+
+//class priority_queue_my 
+//{
+//
+//	vector<Wezel*> wezly;
+//public:
+//	//priority_queue(){}
+//	//~priority_queue(){}
+//
+//	void push(Wezel* element) 
+//	{
+//		wezly.push_back(element);
+//		sort(wezly.begin(), wezly.end(), porownajwezly);
+//	}
+//
+//	bool porownajwezly(Wezel pierwszy, Wezel drugi)
+//	{
+//		if (pierwszy.ograniczenie > drugi.ograniczenie)
+//		{
+//			return true;
+//		}
+//		else
+//		{
+//			return false;
+//		}
+//	}
+//
+//	int size()
+//	{
+//		return wezly.size();
+//	}
+//
+//	Wezel* front()
+//	{
+//		return wezly[0];
+//	}
+//
+//	void pop()
+//	{
+//		wezly.erase(wezly.begin());
+//	}
+//
+//
+//};
