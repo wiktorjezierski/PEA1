@@ -1,4 +1,4 @@
-# pragma once
+#pragma once
 #include "stdafx.h"
 #include <algorithm>
 #include <stdio.h>
@@ -20,7 +20,6 @@ struct Przedmiot
 		this->wartosc = parametr_wartosc;
 		//wartosc i rozmiar sa rzutowane na double po to aby wynik dzielenia posiada³ czesc ulamkowa
 		this->wartosc_do_rozmiaru = (double)(wartosc) / (double)(rozmiar);
-
 	}
 };
 struct Wezel
@@ -34,15 +33,11 @@ struct Wezel
 	Wezel *lewy_potomek;
 	Wezel *prawy_potomek;
 	Wezel()
-	{
-		
-
-	}
+	{}
 	
 };
 bool porownaj(Przedmiot pierwszy, Przedmiot drugi)
 {
-
 	if (pierwszy.wartosc_do_rozmiaru > drugi.wartosc_do_rozmiaru)
 	{
 		return true;
@@ -51,17 +46,12 @@ bool porownaj(Przedmiot pierwszy, Przedmiot drugi)
 	{
 		return false;
 	}
-
-
 }
 
 class priority_queue_my
 {
 public:
 	vector<Wezel*> wezly;
-
-	//priority_queue(){}
-	//~priority_queue(){}
 
 	void push(Wezel* element)
 	{
@@ -72,7 +62,6 @@ public:
 		}
 		else
 		{
-			//wezly.push_back(element);
 			for (int i = 0; i < size(); i++)	//albo ta petla albo sortuj
 			{
 				if (wezly[i]->ograniczenie < element->ograniczenie)
@@ -82,6 +71,7 @@ public:
 						pozycja = i - 1;
 					else
 						pozycja = 0;
+
 					wezly.insert(wezly.begin() + pozycja, element);
 					test = true;
 					break;
@@ -90,45 +80,8 @@ public:
 
 			if (test == false)
 				wezly.push_back(element);
-
-			//sortuj();
 		}		
 	}
-
-	void sortuj()
-	{
-		bool test = false;
-		//cout << "wydruk kontorlny funkcji sortuj z kolejki priorytetowej\n";
-		for (int i = 0; i < wezly.size();i++)
-		{
-			test = false;
-			for (int j = 0; j < wezly.size() - 1; j++)
-			{
-				if (wezly[j]->ograniczenie < wezly[j + 1]->ograniczenie)
-				{
-					Wezel * temp = wezly[j];
-					wezly[j] = wezly[j + 1];
-					wezly[j + 1] = temp;
-					test = true;
-				}
-			}
-
-			if (test == false)
-				break;
-		}
-	}
-
-	/*bool porownajwezly(Wezel* pierwszy, Wezel* drugi)
-	{
-		if (pierwszy->ograniczenie > drugi->ograniczenie)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}*/
 
 	int size()
 	{
@@ -145,7 +98,7 @@ public:
 		wezly.erase(wezly.begin());
 	}
 
-	bool empty()
+	bool isEmpty()
 	{
 		if (wezly.size() == 0)
 			return true;
@@ -165,121 +118,18 @@ class Plecak
 	int pojemnosc;
 	int ilosc_elementow;
 	
-
 	vector<Przedmiot> wektor_przedmiotow;
 	vector<int>wektor_liczb;
 
 public:
 	Plecak()
-	{
-		//string nazwa_pliku;
-		//srand(time(NULL));
-	 //   clock_t start, koniec;
-		//int menu;
-
-		//cout << "jesli chcesz wczytac i wyswietlic dane z pliku nacisnij 1\njesli chcesz wygenerowac losowa instancje nacisnij 2\n";
-		//cin >> menu;
-		//
-		//if (menu == 1)
-		//{
-		//	cout << "\npodaj nazwe pliku z instancja testowa\n";
-		//	cin >> nazwa_pliku;
-		//}
-		//if (menu == 2)
-		//{
-		//	ofstream plik_generuj;
-		//	int pom_pojemnosc;
-		//	int pom_ilosc_elementow;
-		//	plik_generuj.open("generowany.txt");
-
-		//	cout << "Podaj pojemnosc plecaka\n";
-		//	cin >> pom_pojemnosc;
-		//	plik_generuj << "\n" << pom_pojemnosc;	
-
-		//	cout << "Podaj ilosc elementow\n";
-		//	cin >> pom_ilosc_elementow;
-		//	plik_generuj << "\n" << pom_ilosc_elementow;
-
-		//	for (int i = 0; i < pom_ilosc_elementow; i++)
-		//	{
-		//		
-		//			plik_generuj << "\n" << rand() %(int) (pom_pojemnosc*0.5) + 1 << "\t" << rand() % pom_pojemnosc + 1;
-		//	}
-		//	//nazwa_pliku = "generowany.txt";
-		//	nazwa_pliku = "generowany";
-		//	plik_generuj.close();			
-		//	
-		//}
-
-		//	if (menu == 1 || menu == 2)
-		//	{
-		//	if (wczytaj_plik_testowy(nazwa_pliku+".txt"))
-		//	{
-		//		//pobranie pojemnosci plecaka, oraz usuniecie tej danej z wektora
-		//		pojemnosc = wektor_liczb.front();
-		//		//usuniecie pierwszego elementu wektora
-		//		wektor_liczb.erase(wektor_liczb.begin());
-		//		//pobranie ilosci elementow, oraz usuniecie tej danej z wektora
-		//		ilosc_elementow = wektor_liczb.front();
-		//		//usuniecie pierwszego elementu wektora
-		//		wektor_liczb.erase(wektor_liczb.begin());
-		//		cout << "Problem plecakowy\nzlodziej ma do dyspozycji\t" << ilosc_elementow << " elementow\n" << "pojemnosc plecaka wynosi\t" << pojemnosc << "\n";
-		//		if (wektor_liczb.size() == 2 * ilosc_elementow)
-		//		{
-		//			//stworzenie wektora zawierajacego elementy plecaka
-		//			for (int i = 0; i < wektor_liczb.size(); i = i + 2)
-		//			{
-		//				wektor_przedmiotow.push_back(Przedmiot(wektor_liczb[i], wektor_liczb[i + 1]));						
-		//			}
-
-		//			for each (Przedmiot p in wektor_przedmiotow)
-		//			{
-		//				cout << "rozmiar " << p.rozmiar << " wartosc " << p.wartosc << endl;
-		//			}
-		//		}
-		//	}
-		//	else
-		//	{
-		//		cout << "Niepoprawna ilosc wczytanych wartosci\nalgorytm nie wykona sie :(\n";
-		//	}	
-		//					
-		//		
-		//			//sortowanie wektora zawierajacego przedmioty funkcja sort z STL, 
-		//			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
-					//wywo³anie algorytmu podzia³u i ograniczen
-					//branch_and_bound();
-					////dorzucic tu wywolanie drugiego algorytmu
-					//
-					//
-					//int wybor;
-					//cout << "\njesli chcesz wyswietlic elemety posortowane wedlug ilorazu wartosci do wagi nacisnij 1 \n";
-					//cin >> wybor;
-					//if (wybor == 1)
-					//{
-					//	for each (Przedmiot przedmiot in wektor_przedmiotow)
-					//	{
-					//		cout << "\nromiar: " << przedmiot.rozmiar << "\twartosc: " << przedmiot.wartosc;
-
-					//		printf(" wartosc do rozmiaru %f", przedmiot.wartosc_do_rozmiaru);
-					//	}
-					//}
-					//cout << "\nwartosc:\t" << najlepszy->wartosc  << "\nwaga:\t" << najlepszy->waga << endl;
-					//cout << "\njesli chcesz wyswietlic elemety znajdujace sie w plecaku nacisnij 1 \n";
-					//cin >> wybor;
-					//if (wybor == 1)
-					//{
-					//	wyswietl_wybrane_elementy();
-					//}		
-						
-		//}		
-		
-		
-	}
+	{}
 	~Plecak()
 	{
 		wektor_przedmiotow.erase(wektor_przedmiotow.begin(), wektor_przedmiotow.end());
 		wektor_liczb.erase(wektor_liczb.begin(), wektor_liczb.end());
 	}
+
 	bool wczytaj_plik_testowy(string nazwa_pliku)
 	{
 		vector<string> wektor_odczytu;
@@ -315,11 +165,10 @@ public:
 			cout << "Niepoprawny odczyt pliku\n";
 			return false;
 		}
-
 	}
+
 	int ograniczenie(int poziom, int waga_chwilowa, int wartosc_chwilowa)
-	{
-		    
+	{		    
 			for (int i = poziom; i < wektor_przedmiotow.size() ;i++)
 			{
 			    
@@ -334,12 +183,12 @@ public:
 				
 					wartosc_chwilowa = wartosc_chwilowa + roznica /wektor_przedmiotow[i].rozmiar*wektor_przedmiotow[i].wartosc;
 					break;
-
 				}
 			}
 			
 			return wartosc_chwilowa;
 	}
+
 	void branch_and_bound()
 	{		
 		Wezel nie_ustawiony;
@@ -403,9 +252,9 @@ public:
 						{
 							najlepszy = lewy;
 						}						
-
 					}
-					kolejka_wezlow.push(lewy);				}
+					kolejka_wezlow.push(lewy);				
+				}
 				if (pom->prawy_potomek==&nie_ustawiony)
 				{
 					prawy = new Wezel();
@@ -441,18 +290,14 @@ public:
 						{
 							najlepszy = prawy;
 						}
-
 					}
 
 					kolejka_wezlow.push(prawy);
 				}
-				
-				
-			}	
-					
-			
+			}				
 		}
 	}
+
 	void best_first()
 	{
 		Wezel nie_ustawiony;
@@ -460,8 +305,7 @@ public:
 		Wezel *lewy;
 		Wezel *prawy;
 		//for (int i = 0; i < wektor_przedmiotow.size(); i++)
-		//{
-					
+		//{					
 				Wezel *wezel = new Wezel();			//warunki poczatkowe
 				wezel->przodek = NULL;
 				wezel->lewy_potomek = &nie_ustawiony;
@@ -472,9 +316,7 @@ public:
 				wezel->wartosc = 0;
 				kolejka_priorytetowa.wezly.push_back(wezel);
 				najlepszy = wezel;
-				
-
-			
+		
 			volatile int pomocnicza = wektor_przedmiotow.size();
 			
 			for (int j = 0; j < pomocnicza; j++)
@@ -483,8 +325,6 @@ public:
 				Wezel *pom = kolejka_priorytetowa.front();
 				//usuniecie elementu z pocz¹tku kolejki
 				kolejka_priorytetowa.pop();
-				//if(pom->poziom < wektor_przedmiotow.size())
-			//{
 				//ustawianie lewego potomka
 				if (pom->lewy_potomek == &nie_ustawiony)
 				{
@@ -519,7 +359,6 @@ public:
 						{
 							najlepszy = lewy;
 						}
-
 					}
 					kolejka_priorytetowa.push(lewy);
 				}
@@ -562,13 +401,9 @@ public:
 					}
 					kolejka_priorytetowa.push(prawy);
 				}
-
-
 			}
-
-
-		//}
 	}
+
 	void wyswietl_wybrane_elementy()
 	{
 		Wezel *tymczasowy;
@@ -577,10 +412,8 @@ public:
 		vector<Wezel*>wektor_wskaznikow;
 		while (tymczasowy != NULL)
 		{
-
 			wektor_wskaznikow.push_back(tymczasowy);
 			tymczasowy = tymczasowy->przodek;
-
 		}
 		Wezel*pom;
 		cout << "!"<<endl;
@@ -592,12 +425,11 @@ public:
 				cout << "\nnumer elementu\t" << pom->poziom;
 				cout << "\nwartosc\t" << wektor_przedmiotow[pom->poziom].wartosc;
 				cout << "\nrozmiar\t" << wektor_przedmiotow[pom->poziom].rozmiar;
-
 			}
 		}
 	}
-	//////////////////////////
-	void zarzadzaj()		//tutaj dodac logike zarzadzania wyborem algorytmu, wszerz czy wglab
+
+	void zarzadzaj()
 	{
 		int menu;
 		cout << "\nwybor algorytmu\n 1 - branch and bound\n 2 - best first\n";
@@ -613,7 +445,6 @@ public:
 			cout << "\nwybrales algorytm best first\n";
 			best_first();
 		}
-
 
 		int wybor;
 		cout << "\njesli chcesz wyswietlic elemety posortowane wedlug ilorazu wartosci do wagi nacisnij 1 \n";
@@ -671,7 +502,6 @@ public:
 
 				plik_generuj << "\n" << rand() % (int)(pom_pojemnosc*0.5) + 1 << "\t" << rand() % pom_pojemnosc + 1;
 			}
-			//nazwa_pliku = "generowany.txt";
 			nazwa_pliku = "generowany";
 			plik_generuj.close();
 
@@ -708,55 +538,8 @@ public:
 			{
 				cout << "Niepoprawna ilosc wczytanych wartosci\nalgorytm nie wykona sie :(\n";
 			}
-
-
 			//sortowanie wektora zawierajacego przedmioty funkcja sort z STL, 
 			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
 		}
 	}
-
 };
-
-//class priority_queue_my 
-//{
-//
-//	vector<Wezel*> wezly;
-//public:
-//	//priority_queue(){}
-//	//~priority_queue(){}
-//
-//	void push(Wezel* element) 
-//	{
-//		wezly.push_back(element);
-//		sort(wezly.begin(), wezly.end(), porownajwezly);
-//	}
-//
-//	bool porownajwezly(Wezel pierwszy, Wezel drugi)
-//	{
-//		if (pierwszy.ograniczenie > drugi.ograniczenie)
-//		{
-//			return true;
-//		}
-//		else
-//		{
-//			return false;
-//		}
-//	}
-//
-//	int size()
-//	{
-//		return wezly.size();
-//	}
-//
-//	Wezel* front()
-//	{
-//		return wezly[0];
-//	}
-//
-//	void pop()
-//	{
-//		wezly.erase(wezly.begin());
-//	}
-//
-//
-//};
