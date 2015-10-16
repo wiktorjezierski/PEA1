@@ -57,9 +57,9 @@ bool porownaj(Przedmiot pierwszy, Przedmiot drugi)
 
 class priority_queue_my
 {
-
-	vector<Wezel*> wezly;
 public:
+	vector<Wezel*> wezly;
+
 	//priority_queue(){}
 	//~priority_queue(){}
 
@@ -452,7 +452,7 @@ public:
 				wezel->ograniczenie = ograniczenie(0, 0, 0);
 				wezel->waga = 0;
 				wezel->wartosc = 0;
-				kolejka_priorytetowa.push(wezel);
+				kolejka_priorytetowa.wezly.push_back(wezel);
 				najlepszy = wezel;
 				
 
@@ -460,10 +460,13 @@ public:
 			volatile int pomocnicza = wektor_przedmiotow.size();
 			
 			for (int j = 0; j < pomocnicza; j++)
+			//while(kolejka_priorytetowa.size() > 0)
 			{
 				Wezel *pom = kolejka_priorytetowa.front();
 				//usuniecie elementu z pocz¹tku kolejki
 				kolejka_priorytetowa.pop();
+				//if(pom->poziom < wektor_przedmiotow.size())
+			//{
 				//ustawianie lewego potomka
 				if (pom->lewy_potomek == &nie_ustawiony)
 				{
