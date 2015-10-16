@@ -65,16 +65,34 @@ public:
 
 	void push(Wezel* element)
 	{
-		wezly.push_back(element);
-		for (int i = 0; i < size(); i++)	//albo ta petla albo sortuj
+		bool test = false;
+		if (size() == 0)
 		{
-			if (wezly[i]->ograniczenie < element->ograniczenie)
+			wezly.push_back(element);
+		}
+		else
+		{
+			//wezly.push_back(element);
+			for (int i = 0; i < size(); i++)	//albo ta petla albo sortuj
 			{
-				wezly.insert(wezly.begin()+i+1,element);
+				if (wezly[i]->ograniczenie < element->ograniczenie)
+				{
+					volatile int pozycja;
+					if ((i - 1) >= 0)
+						pozycja = i - 1;
+					else
+						pozycja = 0;
+					wezly.insert(wezly.begin() + pozycja, element);
+					test = true;
+					break;
+				}
 			}
-		} 
 
-		//sortuj();
+			if (test == false)
+				wezly.push_back(element);
+
+			//sortuj();
+		}		
 	}
 
 	void sortuj()
