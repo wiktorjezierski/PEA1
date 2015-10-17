@@ -9,17 +9,13 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	
 	cout << "Program wykonuje algorytm branch and bound dla problemu plecakowego\n\n";
-	Plecak*plecak= new Plecak();
+	Plecak*plecak = new Plecak();
 	plecak->wczzytaj();
 	plecak->zarzadzaj();
 	plecak->~Plecak();
 
-
-	
-
-	
-
-	system("pause");
+	cin.ignore();
+	cin.get();
 	return 0;
 }
 

@@ -26,15 +26,13 @@ struct Wezel
 {
 	 int poziom;
 	 int indeks;
-	 int ograniczenie;	//wartosc granicy wierzcho³ka??
+	 int ograniczenie;	
 	 int waga;
 	 int wartosc;
 	Wezel *przodek;
 	Wezel *lewy_potomek;
 	Wezel *prawy_potomek;
-	Wezel()
-	{}
-	
+	Wezel()	{}
 };
 bool porownaj(Przedmiot pierwszy, Przedmiot drugi)
 {
@@ -67,7 +65,7 @@ public:
 				if (wezly[i]->ograniczenie < element->ograniczenie)
 				{
 					volatile int pozycja;
-					if ((i - 1) >= 0)
+					if (i > 0)
 						pozycja = i - 1;
 					else
 						pozycja = 0;
@@ -128,6 +126,7 @@ public:
 	{
 		wektor_przedmiotow.erase(wektor_przedmiotow.begin(), wektor_przedmiotow.end());
 		wektor_liczb.erase(wektor_liczb.begin(), wektor_liczb.end());
+		remove("generowany.txt");
 	}
 
 	bool wczytaj_plik_testowy(string nazwa_pliku)
@@ -422,9 +421,9 @@ public:
 			pom = wektor_wskaznikow[i];
 			if (wektor_wskaznikow[i - 1] == pom->lewy_potomek)
 			{
-				cout << "\nnumer elementu\t" << pom->poziom;
-				cout << "\nwartosc\t" << wektor_przedmiotow[pom->poziom].wartosc;
-				cout << "\nrozmiar\t" << wektor_przedmiotow[pom->poziom].rozmiar;
+				cout << "\nnumer elementu: " << pom->poziom;
+				cout << "\twartosc: " << wektor_przedmiotow[pom->poziom].wartosc;
+				cout << "\trozmiar: " << wektor_przedmiotow[pom->poziom].rozmiar;
 			}
 		}
 	}
@@ -432,7 +431,7 @@ public:
 	void zarzadzaj()
 	{
 		int menu;
-		cout << "\nwybor algorytmu\n 1 - branch and bound\n 2 - best first\n";
+		cout << "\nwybor algorytmu\n 1 - branch and bound\n 2 - best first\n>";
 		cin >> menu;
 		
 		if (menu == 1)
@@ -447,7 +446,7 @@ public:
 		}
 
 		int wybor;
-		cout << "\njesli chcesz wyswietlic elemety posortowane wedlug ilorazu wartosci do wagi nacisnij 1 \n";
+		cout << "\njesli chcesz wyswietlic elemety posortowane wedlug ilorazu wartosci do wagi nacisnij 1 \n>";
 		cin >> wybor;
 		if (wybor == 1)
 		{
@@ -459,7 +458,7 @@ public:
 			}
 		}
 		cout << "\nwartosc:\t" << najlepszy->wartosc << "\nwaga:\t" << najlepszy->waga << endl;
-		cout << "\njesli chcesz wyswietlic elemety znajdujace sie w plecaku nacisnij 1 \n";
+		cout << "\njesli chcesz wyswietlic elemety znajdujace sie w plecaku nacisnij 1 \n>";
 		cin >> wybor;
 		if (wybor == 1)
 		{
@@ -474,12 +473,12 @@ public:
 		clock_t start, koniec;
 		int menu;
 
-		cout << "jesli chcesz wczytac i wyswietlic dane z pliku nacisnij 1\njesli chcesz wygenerowac losowa instancje nacisnij 2\n";
+		cout << "jesli chcesz wczytac i wyswietlic dane z pliku nacisnij 1\njesli chcesz wygenerowac losowa instancje nacisnij 2\n>";
 		cin >> menu;
 
 		if (menu == 1)
 		{
-			cout << "\npodaj nazwe pliku z instancja testowa\n";
+			cout << "\npodaj nazwe pliku z instancja testowa\n>";
 			cin >> nazwa_pliku;
 		}
 		if (menu == 2)
@@ -489,18 +488,17 @@ public:
 			int pom_ilosc_elementow;
 			plik_generuj.open("generowany.txt");
 
-			cout << "Podaj pojemnosc plecaka\n";
+			cout << "Podaj pojemnosc plecaka\n>";
 			cin >> pom_pojemnosc;
-			plik_generuj << "\n" << pom_pojemnosc;
-
-			cout << "Podaj ilosc elementow\n";
+			plik_generuj << pom_pojemnosc;
+			pom_pojemnosc++;//wazne
+			cout << "Podaj ilosc elementow\n>";
 			cin >> pom_ilosc_elementow;
 			plik_generuj << "\n" << pom_ilosc_elementow;
-
+			
 			for (int i = 0; i < pom_ilosc_elementow; i++)
 			{
-
-				plik_generuj << "\n" << rand() % (int)(pom_pojemnosc*0.5) + 1 << "\t" << rand() % pom_pojemnosc + 1;
+				plik_generuj << "\n" << rand() % (int)(pom_pojemnosc*0.5) + 1 << " " << rand() % (pom_pojemnosc + 1);
 			}
 			nazwa_pliku = "generowany";
 			plik_generuj.close();
