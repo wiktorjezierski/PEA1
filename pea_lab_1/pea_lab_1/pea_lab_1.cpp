@@ -10,8 +10,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	cout << "Program wykonuje algorytm branch and bound dla problemu plecakowego\n\n";
 	Plecak*plecak = new Plecak();
-	plecak->wczzytaj();
+	//plecak->wczzytaj();
 	plecak->zarzadzaj();
+//	plecak->wczytaj_z_pliku("p1");
+//	plecak->best_first();
+//	plecak->wyswietl_wybrane_elementy();
 	plecak->~Plecak();
 
 	cin.ignore();

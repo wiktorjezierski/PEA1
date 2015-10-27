@@ -6,6 +6,7 @@
 #include <ctime>
 #include <queue>
 #include <functional>
+#include <cstdlib>
 using namespace std;
 
 
@@ -134,6 +135,10 @@ public:
 	{
 		this->pojemnosc = pojemnosc;
 	}
+	int get_pojemnosc()
+	{
+		return pojemnosc;
+	}
 
 	int ograniczenie(int poziom, int waga_chwilowa, int wartosc_chwilowa)
 	{		    
@@ -158,7 +163,8 @@ public:
 	}
 
 	void branch_and_bound()
-	{		
+	{	
+
 		Wezel nie_ustawiony;
 		najlepszy = NULL;
 		Wezel *lewy;
@@ -405,7 +411,7 @@ public:
 				}
 			}
 
-			if (aktualny_rozmiar <= pojemnosc && aktualna_wartosc > best_wartosc)
+			if (aktualny_rozmiar < pojemnosc && aktualna_wartosc > best_wartosc)
 			{
 				best_wartosc = aktualna_wartosc;
 				aktualnie_best.clear();
@@ -415,8 +421,6 @@ public:
 				}
 			}
 		}
-
-		wyswietl_przeglad_zupelny();
 	}
 
 	void wyswietl_wybrane_elementy()
@@ -437,7 +441,7 @@ public:
 			pom = wektor_wskaznikow[i];
 			if (wektor_wskaznikow[i - 1] == pom->lewy_potomek)
 			{
-				//cout << "\nnumer elementu: " << pom->poziom;
+				cout << "\nnumer elementu: " << pom->poziom;
 				cout << "\twartosc: " << wektor_przedmiotow[pom->poziom].wartosc;
 				cout << "\trozmiar: " << wektor_przedmiotow[pom->poziom].rozmiar;
 			}
@@ -451,10 +455,19 @@ public:
 			cout << "wartosc: " << item.wartosc << "\trozmiar " << item.rozmiar << endl;
 		}
 	}
+	
+	void wyswietl_po_wczytaniu()
+	{
+		for each (Przedmiot item in wektor_przedmiotow)
+		{
+			cout << "rozmiar: " << item.rozmiar << " wartosc: " << item.wartosc << endl;
+		}
+	}
 
 	void zarzadzaj()	//tu wstawic menu damiana
 	{
-		int menu;
+		menu();
+		/*int menu;
 		cout << "\nwybor algorytmu\n 1 - branch and bound\n 2 - best first\n 3 - przeglad zupelny\n>";
 		cin >> menu;
 		
@@ -491,50 +504,106 @@ public:
 		if (wybor == 1)
 		{
 			wyswietl_wybrane_elementy();
+		}*/
+	}
+
+	void menu()
+	{
+		int wybor = 666;
+		int wybor2 = 666;
+		string nazwaPliku;
+		int rozmPlecaka;
+
+		cout << "Podaj rozmiar plecaka: ";
+		cin >> rozmPlecaka;
+		set_pojemnosc(rozmPlecaka);
+		system("cls");
+
+		while (wybor != 0) {
+			cout << "\tMENU\n";
+			cout << "Wybierz opcje:\n";
+			cout << "-----------------------------\n";
+			cout << "1. Wczytaj z pliku\n";
+			cout << "2. Wygeneruj losowo\n";
+			cout << "3. Zmien rozmiar plecaka\n";
+			cout << "0. EXIT\n";
+			cout << "-----------------------------\n\n";
+			cin >> wybor;
+			switch (wybor)
+			{
+			case 1:
+				cout << "Podaj nazwe pliku:\n";
+				cin >> nazwaPliku;
+				wczytaj_z_pliku(nazwaPliku);
+				cout << "\n";
+				wyswietl_po_wczytaniu();
+				//system("cls");
+				break;
+			case 2:
+				cout << "Wygeneruj losowo()";
+				losowo();
+				cout << "\n";
+				//system("cls");
+				break;
+			case 3:
+				cout << "podaj nowy rozmiar plecaka";
+				int temp;
+				cin >> temp;
+				set_pojemnosc(temp);
+				cout << "\n";
+				//system("cls");
+				break;
+			default:
+				break;
+			}
+			while (wybor2 != 0) {
+				cout << "\tWybierz algorytm:\n";
+				cout << "-----------------------------\n";
+				cout << "1. Branch and bound\n";
+				cout << "2. Best First\n";
+				cout << "3. Przeglad zupelny\n";
+				cout << "0. BACK\n";
+				cout << "-----------------------------\n\n";
+				cin >> wybor2;
+				switch (wybor2)
+				{
+				case 1:
+					//system("cls");
+					branch_and_bound();
+					wyswietl_wybrane_elementy();
+					cin.get();
+					//system("cls");
+					break;
+				case 2:
+					//system("cls");
+					best_first();
+					wyswietl_wybrane_elementy();
+					cin.get();
+					//system("cls");
+					break;
+				case 3:
+					//system("cls");
+					przeglad_zupelny();
+					wyswietl_przeglad_zupelny();
+					cin.get();
+					//system("cls");
+					break;
+				case 0:
+					//system("cls");
+				default:
+					break;
+				}
+			}
+
 		}
 	}
 
-	void wczzytaj()
+	void wczzytaj(string nazwa_pliku)
 	{
-		string nazwa_pliku;
 		srand(time(NULL));
 		clock_t start, koniec;
 		int menu;
 
-		cout << "jesli chcesz wczytac i wyswietlic dane z pliku nacisnij 1\njesli chcesz wygenerowac losowa instancje nacisnij 2\n>";
-		cin >> menu;
-
-		if (menu == 1)
-		{
-			cout << "\npodaj nazwe pliku z instancja testowa\n>";
-			cin >> nazwa_pliku;
-		}
-		if (menu == 2)
-		{
-			ofstream plik_generuj;
-			int pom_pojemnosc;
-			int pom_ilosc_elementow;
-			plik_generuj.open("generowany.txt");
-
-			cout << "Podaj pojemnosc plecaka\n>";
-			cin >> pom_pojemnosc;
-			plik_generuj << pom_pojemnosc;
-			pom_pojemnosc++;//wazne
-			cout << "Podaj ilosc elementow\n>";
-			cin >> pom_ilosc_elementow;
-			plik_generuj << "\n" << pom_ilosc_elementow;
-			
-			for (int i = 0; i < pom_ilosc_elementow; i++)
-			{
-				plik_generuj << "\n" << rand() % (int)(pom_pojemnosc*0.5) + 1 << " " << rand() % (pom_pojemnosc + 1);
-			}
-			nazwa_pliku = "generowany";
-			plik_generuj.close();
-
-		}
-
-		if (menu == 1 || menu == 2)
-		{
 			if (wczytaj_plik_testowy(nazwa_pliku + ".txt"))
 			{
 				//pobranie pojemnosci plecaka, oraz usuniecie tej danej z wektora
@@ -566,7 +635,6 @@ public:
 			}
 			//sortowanie wektora zawierajacego przedmioty funkcja sort z STL, 
 			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
-		}
 	}
 
 	bool wczytaj_plik_testowy(string nazwa_pliku)
@@ -604,6 +672,106 @@ public:
 			cout << "Niepoprawny odczyt pliku\n";
 			return false;
 		}
+		plik.close();
 	}
 
+	void wczytaj_z_pliku(string nazwa_pliku)
+	{
+		fstream plik;
+		string tekst1;
+		stringstream ss;
+
+		plik.open(nazwa_pliku + ".txt", ios::in);
+
+		if (plik.good())
+		{
+			stringstream konwersja;
+			getline(plik, tekst1, '\n');
+			konwersja.clear();
+			konwersja << tekst1;
+			konwersja >> ilosc_elementow;
+
+			for (int i = 0; i < ilosc_elementow; i++)
+			{
+				int temp1, temp2;
+
+				getline(plik, tekst1, ' ');			//wczytanie z pliku tekstu do znaku '/'
+				konwersja.clear();
+				konwersja << tekst1;
+				konwersja >> temp1;						//przypisanie zmiennej w obiekcie wartosci				
+
+				getline(plik, tekst1, '\n');			//wczytanie z pliku tekstu do znaku '/'
+				konwersja.clear();
+				konwersja << tekst1;
+				konwersja >> temp2;						//przypisanie zmiennej w obiekcie wartosci			
+
+				Przedmiot item(temp1, temp2);
+				wektor_przedmiotow.push_back(item);
+			}
+		}
+		plik.close();
+		sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
+	}
+
+	void losowo()
+	{
+		for (int i = 0; i < get_pojemnosc(); i++)
+		{
+			Przedmiot item(rand() % get_pojemnosc(), rand() % get_pojemnosc());
+			wektor_przedmiotow.push_back(item);
+			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
+
+		}
+			/*ofstream plik_generuj;
+		int pom_pojemnosc;
+		int pom_ilosc_elementow;
+		plik_generuj.open("generowany.txt");
+
+		cout << "Podaj pojemnosc plecaka\n>";
+		cin >> pom_pojemnosc;
+		plik_generuj << pom_pojemnosc;
+		pom_pojemnosc++;//wazne
+		cout << "Podaj ilosc elementow\n>";
+		cin >> pom_ilosc_elementow;
+		plik_generuj << "\n" << pom_ilosc_elementow;
+
+		for (int i = 0; i < pom_ilosc_elementow; i++)
+		{
+			plik_generuj << "\n" << rand() % (int)(pom_pojemnosc*0.5) + 1 << " " << rand() % (pom_pojemnosc + 1);
+		}
+		nazwa_pliku = "generowany";
+		plik_generuj.close();
+
+		if (wczytaj_plik_testowy(nazwa_pliku + ".txt"))
+		{
+			//pobranie pojemnosci plecaka, oraz usuniecie tej danej z wektora
+			pojemnosc = wektor_liczb.front();
+			//usuniecie pierwszego elementu wektora
+			wektor_liczb.erase(wektor_liczb.begin());
+			//pobranie ilosci elementow, oraz usuniecie tej danej z wektora
+			ilosc_elementow = wektor_liczb.front();
+			//usuniecie pierwszego elementu wektora
+			wektor_liczb.erase(wektor_liczb.begin());
+			cout << "Problem plecakowy\nzlodziej ma do dyspozycji\t" << ilosc_elementow << " elementow\n" << "pojemnosc plecaka wynosi\t" << pojemnosc << "\n";
+			if (wektor_liczb.size() == 2 * ilosc_elementow)
+			{
+				//stworzenie wektora zawierajacego elementy plecaka
+				for (int i = 0; i < wektor_liczb.size(); i = i + 2)
+				{
+					wektor_przedmiotow.push_back(Przedmiot(wektor_liczb[i], wektor_liczb[i + 1]));
+				}
+
+				for each (Przedmiot p in wektor_przedmiotow)
+				{
+					cout << "rozmiar " << p.rozmiar << " wartosc " << p.wartosc << endl;
+				}
+			}
+		}
+		else
+		{
+			cout << "Niepoprawna ilosc wczytanych wartosci\nalgorytm nie wykona sie :(\n";
+		}
+		//sortowanie wektora zawierajacego przedmioty funkcja sort z STL, 
+		sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);*/
+	}
 };
