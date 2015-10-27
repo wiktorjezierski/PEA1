@@ -110,8 +110,9 @@ public:
 class Plecak
 {
 	Wezel *najlepszy;
-	queue<Wezel*>kolejka_wezlow;
-	priority_queue_my kolejka_priorytetowa;
+	queue<Wezel*>kolejka_wezlow;			// do branch and bound
+	priority_queue_my kolejka_priorytetowa;	//do best first
+	vector<Przedmiot> aktualnie_best;		//do przegladu zupelnego
 
 	int pojemnosc;
 	int ilosc_elementow;
@@ -128,42 +129,10 @@ public:
 		wektor_liczb.erase(wektor_liczb.begin(), wektor_liczb.end());
 		remove("generowany.txt");
 	}
-
-	bool wczytaj_plik_testowy(string nazwa_pliku)
+	
+	void set_pojemnosc(int pojemnosc)
 	{
-		vector<string> wektor_odczytu;
-		fstream plik;
-		plik.open(nazwa_pliku, ios::in);
-		if (plik.good())
-		{
-			//wczytanie ca³ego pliku, ka¿da linia jest oddzielnym elementem wektora_odczytu
-			string linia;
-			while (!plik.eof())
-			{
-				getline(plik, linia);
-				wektor_odczytu.push_back(linia);
-			}
-			for each (string linia in wektor_odczytu)
-			{
-				stringstream strumien(linia);
-				do
-				{
-					string sub;
-					strumien >> sub;
-					if (atoi(sub.c_str()))
-					{
-						wektor_liczb.push_back(atoi(sub.c_str()));
-					}
-
-				} while (strumien);
-			}
-			return true;
-		}
-		else 
-		{
-			cout << "Niepoprawny odczyt pliku\n";
-			return false;
-		}
+		this->pojemnosc = pojemnosc;
 	}
 
 	int ograniczenie(int poziom, int waga_chwilowa, int wartosc_chwilowa)
@@ -403,6 +372,53 @@ public:
 			}
 	}
 
+	void przeglad_zupelny()
+	{
+		vector<int> skladowe;
+		vector<Przedmiot> temp1;
+
+		int kombinacje = pow(2, wektor_przedmiotow.size());
+		int best_wartosc = 0;
+		int liczba_dziesietna;
+
+		for (int i = 0; i < kombinacje; i++)		//for po wszystkich kombinacjach
+		{
+			int aktualna_wartosc = 0;
+			int aktualny_rozmiar = 0;
+			skladowe.clear();
+			temp1.clear();
+			liczba_dziesietna = i;
+
+			while (liczba_dziesietna > 0)		//rozklad na dwojkowe
+			{
+				skladowe.push_back(liczba_dziesietna % 2);
+				liczba_dziesietna = liczba_dziesietna / 2;
+			}
+
+			for (int j = 0; j < skladowe.size(); j++)	//funkcja bioraca elementy tam gdzie jest 1
+			{
+				if (skladowe[j] == 1)
+				{
+					aktualny_rozmiar += wektor_przedmiotow[j].rozmiar;	
+					aktualna_wartosc += wektor_przedmiotow[j].wartosc; 
+					temp1.push_back(wektor_przedmiotow[j]);
+				}
+			}
+
+			if (aktualny_rozmiar <= pojemnosc && aktualna_wartosc > best_wartosc)
+			{
+				best_wartosc = aktualna_wartosc;
+				aktualnie_best.clear();
+				for (int k = 0; k < temp1.size(); k++)
+				{
+					aktualnie_best.push_back(temp1[k]);	//przepisanie najlepszej kombinacji
+				}
+			}
+		}
+
+		wyswietl_przeglad_zupelny();
+	}
+
 	void wyswietl_wybrane_elementy()
 	{
 		Wezel *tymczasowy;
@@ -421,17 +437,25 @@ public:
 			pom = wektor_wskaznikow[i];
 			if (wektor_wskaznikow[i - 1] == pom->lewy_potomek)
 			{
-				cout << "\nnumer elementu: " << pom->poziom;
+				//cout << "\nnumer elementu: " << pom->poziom;
 				cout << "\twartosc: " << wektor_przedmiotow[pom->poziom].wartosc;
 				cout << "\trozmiar: " << wektor_przedmiotow[pom->poziom].rozmiar;
 			}
 		}
 	}
 
-	void zarzadzaj()
+	void wyswietl_przeglad_zupelny()
+	{
+		for each (Przedmiot item in aktualnie_best)
+		{
+			cout << "wartosc: " << item.wartosc << "\trozmiar " << item.rozmiar << endl;
+		}
+	}
+
+	void zarzadzaj()	//tu wstawic menu damiana
 	{
 		int menu;
-		cout << "\nwybor algorytmu\n 1 - branch and bound\n 2 - best first\n>";
+		cout << "\nwybor algorytmu\n 1 - branch and bound\n 2 - best first\n 3 - przeglad zupelny\n>";
 		cin >> menu;
 		
 		if (menu == 1)
@@ -443,6 +467,10 @@ public:
 		{
 			cout << "\nwybrales algorytm best first\n";
 			best_first();
+		}
+		else if (menu == 3)
+		{
+			przeglad_zupelny();
 		}
 
 		int wybor;
@@ -540,4 +568,42 @@ public:
 			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
 		}
 	}
+
+	bool wczytaj_plik_testowy(string nazwa_pliku)
+	{
+		vector<string> wektor_odczytu;
+		fstream plik;
+		plik.open(nazwa_pliku, ios::in);
+		if (plik.good())
+		{
+			//wczytanie ca³ego pliku, ka¿da linia jest oddzielnym elementem wektora_odczytu
+			string linia;
+			while (!plik.eof())
+			{
+				getline(plik, linia);
+				wektor_odczytu.push_back(linia);
+			}
+			for each (string linia in wektor_odczytu)
+			{
+				stringstream strumien(linia);
+				do
+				{
+					string sub;
+					strumien >> sub;
+					if (atoi(sub.c_str()))
+					{
+						wektor_liczb.push_back(atoi(sub.c_str()));
+					}
+
+				} while (strumien);
+			}
+			return true;
+		}
+		else
+		{
+			cout << "Niepoprawny odczyt pliku\n";
+			return false;
+		}
+	}
+
 };
