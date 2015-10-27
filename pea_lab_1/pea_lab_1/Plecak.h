@@ -119,7 +119,6 @@ class Plecak
 	int ilosc_elementow;
 	
 	vector<Przedmiot> wektor_przedmiotow;
-	vector<int>wektor_liczb;
 
 public:
 	Plecak()
@@ -127,7 +126,6 @@ public:
 	~Plecak()
 	{
 		wektor_przedmiotow.erase(wektor_przedmiotow.begin(), wektor_przedmiotow.end());
-		wektor_liczb.erase(wektor_liczb.begin(), wektor_liczb.end());
 		remove("generowany.txt");
 	}
 	
@@ -300,7 +298,7 @@ public:
 				//usuniecie elementu z pocz¹tku kolejki
 				kolejka_priorytetowa.pop();
 				//ustawianie lewego potomka
-				if (pom->lewy_potomek == &nie_ustawiony)
+				if (pom->lewy_potomek == &nie_ustawiony && pom->poziom >= 0 && pom->poziom < wektor_przedmiotow.size())
 				{
 					lewy = new Wezel();
 					pom->lewy_potomek = lewy;
@@ -427,24 +425,28 @@ public:
 	{
 		Wezel *tymczasowy;
 		tymczasowy = najlepszy;
-		bool log = false;
 		vector<Wezel*>wektor_wskaznikow;
+		wektor_wskaznikow.clear();
 		while (tymczasowy != NULL)
 		{
 			wektor_wskaznikow.push_back(tymczasowy);
 			tymczasowy = tymczasowy->przodek;
 		}
 		Wezel*pom;
-		cout << "!"<<endl;
 		for (int i = wektor_wskaznikow.size() - 1; i > 0; i--)
 		{
 			pom = wektor_wskaznikow[i];
-			if (wektor_wskaznikow[i - 1] == pom->lewy_potomek)
-			{
-				cout << "\nnumer elementu: " << pom->poziom;
-				cout << "\twartosc: " << wektor_przedmiotow[pom->poziom].wartosc;
-				cout << "\trozmiar: " << wektor_przedmiotow[pom->poziom].rozmiar;
-			}
+				if (wektor_wskaznikow[i - 1] == pom->lewy_potomek)
+				{
+					cout << endl;
+					pom->poziom;
+					if (pom->poziom >= 0 && pom->poziom < wektor_przedmiotow.size())
+					{
+						cout << "wartosc: " << wektor_przedmiotow[pom->poziom].wartosc;
+						cout << "\trozmiar: " << wektor_przedmiotow[pom->poziom].rozmiar;
+					}
+				}
+			
 		}
 	}
 
@@ -464,59 +466,14 @@ public:
 		}
 	}
 
-	void zarzadzaj()	//tu wstawic menu damiana
-	{
-		menu();
-		/*int menu;
-		cout << "\nwybor algorytmu\n 1 - branch and bound\n 2 - best first\n 3 - przeglad zupelny\n>";
-		cin >> menu;
-		
-		if (menu == 1)
-		{
-			cout << "\nwybrales algorytm branch and bound\n";
-			branch_and_bound();
-		}
-		else if (menu == 2)
-		{
-			cout << "\nwybrales algorytm best first\n";
-			best_first();
-		}
-		else if (menu == 3)
-		{
-			przeglad_zupelny();
-		}
-
-		int wybor;
-		cout << "\njesli chcesz wyswietlic elemety posortowane wedlug ilorazu wartosci do wagi nacisnij 1 \n>";
-		cin >> wybor;
-		if (wybor == 1)
-		{
-			for each (Przedmiot przedmiot in wektor_przedmiotow)
-			{
-				cout << "\nromiar: " << przedmiot.rozmiar << "\twartosc: " << przedmiot.wartosc;
-
-				printf(" wartosc do rozmiaru %f", przedmiot.wartosc_do_rozmiaru);
-			}
-		}
-		cout << "\nwartosc:\t" << najlepszy->wartosc << "\nwaga:\t" << najlepszy->waga << endl;
-		cout << "\njesli chcesz wyswietlic elemety znajdujace sie w plecaku nacisnij 1 \n>";
-		cin >> wybor;
-		if (wybor == 1)
-		{
-			wyswietl_wybrane_elementy();
-		}*/
-	}
-
-	void menu()
+	void zarzadzaj()
 	{
 		int wybor = 666;
 		int wybor2 = 666;
 		string nazwaPliku;
-		int rozmPlecaka;
 
 		cout << "Podaj rozmiar plecaka: ";
-		cin >> rozmPlecaka;
-		set_pojemnosc(rozmPlecaka);
+		cin >> pojemnosc;
 		system("cls");
 
 		while (wybor != 0) {
@@ -594,85 +551,7 @@ public:
 					break;
 				}
 			}
-
 		}
-	}
-
-	void wczzytaj(string nazwa_pliku)
-	{
-		srand(time(NULL));
-		clock_t start, koniec;
-		int menu;
-
-			if (wczytaj_plik_testowy(nazwa_pliku + ".txt"))
-			{
-				//pobranie pojemnosci plecaka, oraz usuniecie tej danej z wektora
-				pojemnosc = wektor_liczb.front();
-				//usuniecie pierwszego elementu wektora
-				wektor_liczb.erase(wektor_liczb.begin());
-				//pobranie ilosci elementow, oraz usuniecie tej danej z wektora
-				ilosc_elementow = wektor_liczb.front();
-				//usuniecie pierwszego elementu wektora
-				wektor_liczb.erase(wektor_liczb.begin());
-				cout << "Problem plecakowy\nzlodziej ma do dyspozycji\t" << ilosc_elementow << " elementow\n" << "pojemnosc plecaka wynosi\t" << pojemnosc << "\n";
-				if (wektor_liczb.size() == 2 * ilosc_elementow)
-				{
-					//stworzenie wektora zawierajacego elementy plecaka
-					for (int i = 0; i < wektor_liczb.size(); i = i + 2)
-					{
-						wektor_przedmiotow.push_back(Przedmiot(wektor_liczb[i], wektor_liczb[i + 1]));
-					}
-
-					for each (Przedmiot p in wektor_przedmiotow)
-					{
-						cout << "rozmiar " << p.rozmiar << " wartosc " << p.wartosc << endl;
-					}
-				}
-			}
-			else
-			{
-				cout << "Niepoprawna ilosc wczytanych wartosci\nalgorytm nie wykona sie :(\n";
-			}
-			//sortowanie wektora zawierajacego przedmioty funkcja sort z STL, 
-			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
-	}
-
-	bool wczytaj_plik_testowy(string nazwa_pliku)
-	{
-		vector<string> wektor_odczytu;
-		fstream plik;
-		plik.open(nazwa_pliku, ios::in);
-		if (plik.good())
-		{
-			//wczytanie ca³ego pliku, ka¿da linia jest oddzielnym elementem wektora_odczytu
-			string linia;
-			while (!plik.eof())
-			{
-				getline(plik, linia);
-				wektor_odczytu.push_back(linia);
-			}
-			for each (string linia in wektor_odczytu)
-			{
-				stringstream strumien(linia);
-				do
-				{
-					string sub;
-					strumien >> sub;
-					if (atoi(sub.c_str()))
-					{
-						wektor_liczb.push_back(atoi(sub.c_str()));
-					}
-
-				} while (strumien);
-			}
-			return true;
-		}
-		else
-		{
-			cout << "Niepoprawny odczyt pliku\n";
-			return false;
-		}
-		plik.close();
 	}
 
 	void wczytaj_z_pliku(string nazwa_pliku)
@@ -685,6 +564,7 @@ public:
 
 		if (plik.good())
 		{
+			wektor_przedmiotow.clear();
 			stringstream konwersja;
 			getline(plik, tekst1, '\n');
 			konwersja.clear();
@@ -715,63 +595,11 @@ public:
 
 	void losowo()
 	{
-		for (int i = 0; i < get_pojemnosc(); i++)
+		for (int i = 0; i < pojemnosc; i++)
 		{
-			Przedmiot item(rand() % get_pojemnosc(), rand() % get_pojemnosc());
+			Przedmiot item(rand() % pojemnosc, rand() % pojemnosc);
 			wektor_przedmiotow.push_back(item);
 			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
-
 		}
-			/*ofstream plik_generuj;
-		int pom_pojemnosc;
-		int pom_ilosc_elementow;
-		plik_generuj.open("generowany.txt");
-
-		cout << "Podaj pojemnosc plecaka\n>";
-		cin >> pom_pojemnosc;
-		plik_generuj << pom_pojemnosc;
-		pom_pojemnosc++;//wazne
-		cout << "Podaj ilosc elementow\n>";
-		cin >> pom_ilosc_elementow;
-		plik_generuj << "\n" << pom_ilosc_elementow;
-
-		for (int i = 0; i < pom_ilosc_elementow; i++)
-		{
-			plik_generuj << "\n" << rand() % (int)(pom_pojemnosc*0.5) + 1 << " " << rand() % (pom_pojemnosc + 1);
-		}
-		nazwa_pliku = "generowany";
-		plik_generuj.close();
-
-		if (wczytaj_plik_testowy(nazwa_pliku + ".txt"))
-		{
-			//pobranie pojemnosci plecaka, oraz usuniecie tej danej z wektora
-			pojemnosc = wektor_liczb.front();
-			//usuniecie pierwszego elementu wektora
-			wektor_liczb.erase(wektor_liczb.begin());
-			//pobranie ilosci elementow, oraz usuniecie tej danej z wektora
-			ilosc_elementow = wektor_liczb.front();
-			//usuniecie pierwszego elementu wektora
-			wektor_liczb.erase(wektor_liczb.begin());
-			cout << "Problem plecakowy\nzlodziej ma do dyspozycji\t" << ilosc_elementow << " elementow\n" << "pojemnosc plecaka wynosi\t" << pojemnosc << "\n";
-			if (wektor_liczb.size() == 2 * ilosc_elementow)
-			{
-				//stworzenie wektora zawierajacego elementy plecaka
-				for (int i = 0; i < wektor_liczb.size(); i = i + 2)
-				{
-					wektor_przedmiotow.push_back(Przedmiot(wektor_liczb[i], wektor_liczb[i + 1]));
-				}
-
-				for each (Przedmiot p in wektor_przedmiotow)
-				{
-					cout << "rozmiar " << p.rozmiar << " wartosc " << p.wartosc << endl;
-				}
-			}
-		}
-		else
-		{
-			cout << "Niepoprawna ilosc wczytanych wartosci\nalgorytm nie wykona sie :(\n";
-		}
-		//sortowanie wektora zawierajacego przedmioty funkcja sort z STL, 
-		sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);*/
 	}
 };
