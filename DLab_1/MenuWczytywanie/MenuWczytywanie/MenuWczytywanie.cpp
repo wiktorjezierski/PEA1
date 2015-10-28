@@ -6,8 +6,8 @@
 
 int main()
 {
-	int wybor = 666;
-	int wybor2 = 666;
+	volatile int wybor = 666;
+	int wybor2;
 	string nazwaPliku;
 	int rozmPlecaka;
 	
@@ -16,6 +16,7 @@ int main()
 	system("cls");
 
 	while (wybor != 0) {
+		wybor2 = 666;
 		cout << "\tMENU\n";
 		cout << "Wybierz opcje:\n";
 		cout << "-----------------------------\n";
@@ -24,7 +25,9 @@ int main()
 		cout << "3. Zmien rozmiar plecaka\n";
 		cout << "0. EXIT\n";
 		cout << "-----------------------------\n\n";
-		cin >> wybor;
+		int temp;
+		cin >> temp;
+		wybor = temp;
 			switch (wybor)
 			{
 			case 1:

@@ -10,8 +10,9 @@
 using namespace std;
 
 
-struct Przedmiot
+class Przedmiot
 {
+public: 
 	int rozmiar;
 	int wartosc;
 	double wartosc_do_rozmiaru;
@@ -22,7 +23,20 @@ struct Przedmiot
 		//wartosc i rozmiar sa rzutowane na double po to aby wynik dzielenia posiada³ czesc ulamkowa
 		this->wartosc_do_rozmiaru = (double)(wartosc) / (double)(rozmiar);
 	}
+
+	static bool porownaj(Przedmiot pierwszy, Przedmiot drugi)
+	{
+		if (pierwszy.wartosc_do_rozmiaru > drugi.wartosc_do_rozmiaru)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 };
+
 struct Wezel
 {
 	 int poziom;
@@ -35,17 +49,6 @@ struct Wezel
 	Wezel *prawy_potomek;
 	Wezel()	{}
 };
-bool porownaj(Przedmiot pierwszy, Przedmiot drugi)
-{
-	if (pierwszy.wartosc_do_rozmiaru > drugi.wartosc_do_rozmiaru)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 
 class priority_queue_my
 {
@@ -469,7 +472,7 @@ public:
 	void zarzadzaj()
 	{
 		int wybor = 666;
-		int wybor2 = 666;
+		int wybor2;
 		string nazwaPliku;
 
 		cout << "Podaj rozmiar plecaka: ";
@@ -477,6 +480,7 @@ public:
 		system("cls");
 
 		while (wybor != 0) {
+			wybor2 = 666;
 			cout << "\tMENU\n";
 			cout << "Wybierz opcje:\n";
 			cout << "-----------------------------\n";
@@ -503,10 +507,8 @@ public:
 				//system("cls");
 				break;
 			case 3:
-				cout << "podaj nowy rozmiar plecaka";
-				int temp;
-				cin >> temp;
-				set_pojemnosc(temp);
+				cout << "podaj nowy rozmiar plecaka: ";				
+				cin >> pojemnosc;
 				cout << "\n";
 				//system("cls");
 				break;
@@ -590,7 +592,7 @@ public:
 			}
 		}
 		plik.close();
-		sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
+		sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), Przedmiot::porownaj);
 	}
 
 	void losowo()
@@ -599,7 +601,7 @@ public:
 		{
 			Przedmiot item(rand() % pojemnosc, rand() % pojemnosc);
 			wektor_przedmiotow.push_back(item);
-			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), porownaj);
+			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), Przedmiot::porownaj);
 		}
 	}
 };
