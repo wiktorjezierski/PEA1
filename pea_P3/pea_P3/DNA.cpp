@@ -1,0 +1,195 @@
+#include "stdafx.h"
+#include "DNA.h"
+
+
+
+DNA::DNA()
+{
+}
+
+
+DNA::~DNA()
+{
+}
+
+void DNA::wczytaj(string nazwa_pliku)
+{
+	fstream plik;
+	plik.open(nazwa_pliku + ".txt", ios::in);
+	if (!plik.good())
+	{
+		cout << "niepoprawnie wczytany plik\n";
+	}
+	else if (plik.good())
+	{
+		string tekst;
+
+		getline(plik, tekst, '\n');
+		stringstream konwersja;
+		konwersja.clear();
+		konwersja << tekst;
+		konwersja >> ilosc_miast;
+		size = ilosc_miast;
+
+		zrodlowa = new int *[ilosc_miast];
+
+		for (int i = 0; i < ilosc_miast; i++)
+		{
+			zrodlowa[i] = new int[ilosc_miast];
+		}
+
+		//dodac wczytywanie z pliku konwersje i wrzucenie do tablicy
+
+		for (int i = 0; i < ilosc_miast; i++)
+		{
+			for (int j = 0; j < ilosc_miast - 1; j++)
+			{
+				string tekst1;
+				getline(plik, tekst1, ' ');
+				stringstream konwersja;
+				konwersja.clear();
+				konwersja << tekst1;
+				konwersja >> zrodlowa[i][j];
+			}
+
+			string tekst2;
+			getline(plik, tekst2, '\n');
+			stringstream konwersja;
+			konwersja.clear();
+			konwersja << tekst2;
+			konwersja >> zrodlowa[i][ilosc_miast - 1];
+		}
+	}
+}
+
+void DNA::wyswietl_wczytane_miasta()
+{
+	for (int i = 0; i < ilosc_miast; i++)
+	{
+		for (int j = 0; j < ilosc_miast; j++)
+		{
+			cout << zrodlowa[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+int DNA::droga_miedzy_miastami(int pierwsze, int drugie)
+{
+	if (pierwsze < ilosc_miast && drugie < ilosc_miast)	//zabezpieczenie przed przekroczeniem zakresu tablicy
+		return zrodlowa[pierwsze][drugie];
+	else
+		return -1;
+}
+
+void DNA::generuj_warunki_poczatkowe()
+{
+	for (int i = 0; i < size - 1; i++)
+	{
+			genom gen;
+			int pierwsze = rand() % ilosc_miast;
+			int drugie = rand() % ilosc_miast;
+			if (pierwsze == drugie)
+			{
+				drugie++;
+			}
+				gen.dodaj(pierwsze, drugie, droga_miedzy_miastami(pierwsze, drugie));
+				lista_genomow.push_back(gen);
+	}
+}
+
+//dodanie kolejnego miasta do sciezki
+void DNA::generuj()
+{
+	volatile bool test = true;
+	for (int i = 0; i < lista_genomow.size(); i++)	
+	{
+		//cout << "generuj " << i << endl;
+		test = true;
+		while (test) 
+		{
+			int pierwsze = rand() % ilosc_miast;
+			int drugie = rand() % ilosc_miast;
+			
+			if (lista_genomow[i].zawiera_raz(pierwsze) == true && lista_genomow[i].nie_zawiera(drugie) == true
+				|| lista_genomow[i].zawiera_raz(drugie) == true && lista_genomow[i].nie_zawiera(pierwsze) == true)
+			{
+				lista_genomow[i].dodaj(pierwsze, drugie, droga_miedzy_miastami(pierwsze, drugie));
+				test = false;
+			}
+		}
+	}
+}
+
+void DNA::odrzuc_najgorsze()
+{
+	int temp = 999999;
+	int nr_elementu;
+	for (int i = 0; i < lista_genomow.size(); i++)
+	{
+		if (lista_genomow[i].dlugosc_drogi < temp)
+		{
+			temp = lista_genomow[i].dlugosc_drogi;
+			nr_elementu = i;
+		}
+	}
+
+	lista_genomow.erase(lista_genomow.begin() + nr_elementu);
+}
+
+int DNA::wybierz_najlepsze()
+{
+	int temp = 0;
+	int nr_elementu;
+	for (int i = 0; i < lista_genomow.size(); i++)
+	{
+		if (lista_genomow[i].dlugosc_drogi > temp)
+		{
+			temp = lista_genomow[i].dlugosc_drogi;
+			nr_elementu = i;
+		}
+	}
+
+	return nr_elementu;
+}
+
+int DNA::selekcja_naturalna()
+{
+	for (int i = 0; i < size - 2; i++)
+	{
+		cout << "generuj " << i << endl;
+		generuj();
+
+		if (lista_genomow.size() > 1)
+			odrzuc_najgorsze();
+	}
+
+	if (lista_genomow.size() > 1)
+		return wybierz_najlepsze();
+	else
+		return 0;
+}
+
+void DNA::zarzadzaj()
+{
+	generuj_warunki_poczatkowe();
+	int wybor = selekcja_naturalna();
+	//wyswietl_wszystko();
+	wyswietl(wybor);
+	//wyswietl_wszystko();
+}
+
+
+void DNA::wyswietl(int wybor)
+{
+	lista_genomow[wybor].wyswietl();
+}
+
+void DNA::wyswietl_wszystko()
+{
+	for each (genom g in lista_genomow)
+	{
+		g.wyswietl();
+		cout << endl;
+	}
+}
