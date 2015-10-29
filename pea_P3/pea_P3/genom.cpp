@@ -10,10 +10,6 @@ genom::genom()
 
 genom::~genom()
 {
-	/*for (int i = 0; i < droga.size(); i++)
-	{
-		delete droga[i];
-	}*/
 }
 
 void genom::dodaj(int skad, int dokad, int wartosc)
