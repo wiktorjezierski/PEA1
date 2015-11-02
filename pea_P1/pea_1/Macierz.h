@@ -34,6 +34,7 @@ public:
 
 	void allokuj_macierz();	
 	void wypisz_macierz();	
+	void wyswietl();
 	void losuj_kolejnosc_miast();	
 	int policz_droge();	
 	void symulowanie_wyzarzania();

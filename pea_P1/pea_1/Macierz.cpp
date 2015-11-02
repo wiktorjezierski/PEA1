@@ -106,6 +106,14 @@ void Macierz::wypisz_macierz()
 	}
 }
 
+void Macierz::wyswietl()
+{
+	for (int i = 0; i < ilosc_miast; i++)
+	{
+		cout << miasta[i]<<" ";
+	}
+}
+
 void Macierz::losuj_kolejnosc_miast()
 {
 	int numer_zamienianego_miasta;

@@ -9,11 +9,17 @@ int main()
 {	
 	//dynamiczne tworzenie obiektu klasy Macierz
 	Macierz macierz;
-	//zwolnienie pamiêci
+	//macierz.wypisz_macierz();
+	cout << "\nWyœwietliæ miasta po wy¿arzaniu? Y/N \n>";
+	string abcd;
+	cin >> abcd;
+	if(abcd == "Y" || abcd == "y")
+		macierz.wyswietl();
 	
 	//zarzadzaj();
 
-	system("pause");
+	cin.ignore();
+	cin.get();
 	return 0;
 }
 
