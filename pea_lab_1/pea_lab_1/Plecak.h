@@ -473,6 +473,7 @@ public:
 	{
 		int wybor = 666;
 		int wybor2;
+		bool czy_wczytano;
 		string nazwaPliku;
 
 		cout << "Podaj rozmiar plecaka: ";
@@ -495,7 +496,7 @@ public:
 			case 1:
 				cout << "Podaj nazwe pliku:\n";
 				cin >> nazwaPliku;
-				wczytaj_z_pliku(nazwaPliku);
+				czy_wczytano = wczytaj_z_pliku(nazwaPliku);
 				cout << "\n";
 				wyswietl_po_wczytaniu();
 				//system("cls");
@@ -515,7 +516,7 @@ public:
 			default:
 				break;
 			}
-			while (wybor2 != 0) {
+			while (wybor2 != 0 && czy_wczytano == true) {
 				cout << "\tWybierz algorytm:\n";
 				cout << "-----------------------------\n";
 				cout << "1. Branch and bound\n";
@@ -556,7 +557,7 @@ public:
 		}
 	}
 
-	void wczytaj_z_pliku(string nazwa_pliku)
+	bool wczytaj_z_pliku(string nazwa_pliku)
 	{
 		fstream plik;
 		string tekst1;
@@ -590,9 +591,16 @@ public:
 				Przedmiot item(temp1, temp2);
 				wektor_przedmiotow.push_back(item);
 			}
+			plik.close();
+			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), Przedmiot::porownaj);
+			return true;
 		}
-		plik.close();
-		sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), Przedmiot::porownaj);
+		else
+		{
+			cout << "blednda nazwa pliku\n";
+			return false;
+		}
+
 	}
 
 	void losowo()

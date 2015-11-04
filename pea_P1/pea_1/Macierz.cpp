@@ -53,7 +53,7 @@ void Macierz::allokuj_macierz()
 	{
 		macierz = new int *[ilosc_miast];
 	}
-	catch (exception& e)
+	catch (exception e)
 	{
 
 		cout << "Standard exception: " << e.what() << endl;
@@ -65,7 +65,7 @@ void Macierz::allokuj_macierz()
 	{
 		miasta = new int[ilosc_miast];
 	}
-	catch (exception& e)
+	catch (exception e)
 	{
 
 		cout << "Standard exception: " << e.what() << endl;
@@ -83,7 +83,7 @@ void Macierz::allokuj_macierz()
 		{
 			macierz[i] = new int[ilosc_miast];
 		}
-		catch (exception& e)
+		catch (exception e)
 		{
 
 			cout << "Standard exception: " << e.what() << endl;

@@ -7,7 +7,6 @@
 
 int main()
 {	
-	//dynamiczne tworzenie obiektu klasy Macierz
 	Macierz macierz;
 	//macierz.wypisz_macierz();
 	cout << "\nWyœwietliæ miasta po wy¿arzaniu? Y/N \n>";
@@ -15,7 +14,7 @@ int main()
 	cin >> abcd;
 	if(abcd == "Y" || abcd == "y")
 		macierz.wyswietl();
-	
+	macierz.~Macierz();
 	//zarzadzaj();
 
 	cin.ignore();

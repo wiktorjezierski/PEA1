@@ -39,9 +39,7 @@ public:
 	int policz_droge();	
 	void symulowanie_wyzarzania();
 	void generuj_macierz();
-	void wczytaj_macierz();
-	//funkcja taka sama jak wy¿ej lecz przeznaczona do testowania
-	//redundancja kodu, nie zd¹¿y³em stworzyæ ogólnej funkcji 
+	void wczytaj_macierz(); 
 	void wczytaj_macierz(string parametr_nazwa_pliku);
 	
 	LARGE_INTEGER startTimer();
