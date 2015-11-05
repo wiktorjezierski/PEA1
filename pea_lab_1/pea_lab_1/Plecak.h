@@ -68,13 +68,7 @@ public:
 			{
 				if (wezly[i]->ograniczenie < element->ograniczenie)
 				{
-					volatile int pozycja;
-					if (i > 0)
-						pozycja = i - 1;
-					else
-						pozycja = 0;
-
-					wezly.insert(wezly.begin() + pozycja, element);
+					wezly.insert(wezly.begin() + i, element);
 					test = true;
 					break;
 				}
@@ -107,6 +101,14 @@ public:
 		else
 			return false;
 		return true;
+	}
+
+	void wyswietl()
+	{
+		for (int i = 0; i < wezly.size(); i++)
+		{
+			cout << wezly[i]->ograniczenie << " ";
+		}
 	}
 
 };
@@ -213,7 +215,7 @@ public:
 					else
 					{
 						lewy->ograniczenie = ograniczenie(lewy->poziom, lewy->waga, lewy->wartosc);
-						if (lewy->ograniczenie < najlepszy->wartosc) //ograniczenie = wartosc chwilowa // nieobiecujacy
+						if (lewy->ograniczenie < najlepszy->wartosc) 
 						{
 							lewy->lewy_potomek = NULL;
 							lewy->prawy_potomek = NULL;
@@ -376,6 +378,9 @@ public:
 					}
 					kolejka_priorytetowa.push(prawy);
 				}
+
+				/*kolejka_priorytetowa.wyswietl();
+				cout << endl;*/
 			}
 	}
 
@@ -412,7 +417,7 @@ public:
 				}
 			}
 
-			if (aktualny_rozmiar < pojemnosc && aktualna_wartosc > best_wartosc)
+			if (aktualny_rozmiar <= pojemnosc && aktualna_wartosc > best_wartosc)
 			{
 				best_wartosc = aktualna_wartosc;
 				aktualnie_best.clear();
@@ -502,8 +507,10 @@ public:
 				//system("cls");
 				break;
 			case 2:
-				cout << "Wygeneruj losowo()";
-				losowo();
+				cout << "Wygeneruj losowo()\nIle elementow wygenerowac?\n> ";
+				int ile;
+				cin >> ile;
+				czy_wczytano = losowo(ile);
 				cout << "\n";
 				//system("cls");
 				break;
@@ -603,13 +610,15 @@ public:
 
 	}
 
-	void losowo()
+	bool losowo(int ilosc)
 	{
-		for (int i = 0; i < pojemnosc; i++)
+		wektor_przedmiotow.clear();
+		for (int i = 0; i < ilosc; i++)
 		{
-			Przedmiot item(rand() % pojemnosc, rand() % pojemnosc);
+			Przedmiot item(rand() % ilosc, rand() % ilosc);
 			wektor_przedmiotow.push_back(item);
 			sort(wektor_przedmiotow.begin(), wektor_przedmiotow.end(), Przedmiot::porownaj);
 		}
+		return true;
 	}
 };
