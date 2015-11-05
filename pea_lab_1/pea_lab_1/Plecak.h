@@ -612,6 +612,7 @@ public:
 
 	bool losowo(int ilosc)
 	{
+		srand(time(NULL));
 		wektor_przedmiotow.clear();
 		for (int i = 0; i < ilosc; i++)
 		{
