@@ -145,7 +145,7 @@ public:
 
 	int ograniczenie(int poziom, int waga_chwilowa, int wartosc_chwilowa)
 	{		    
-			for (int i = poziom; i < wektor_przedmiotow.size() ;i++)
+			for (int i = poziom; i < wektor_przedmiotow.size() ; i++)
 			{
 			    
 				if (waga_chwilowa + wektor_przedmiotow[i].rozmiar < pojemnosc)
@@ -167,7 +167,6 @@ public:
 
 	void branch_and_bound()
 	{	
-
 		Wezel nie_ustawiony;
 		najlepszy = NULL;
 		Wezel *lewy;
@@ -185,8 +184,7 @@ public:
 				wezel->waga = 0;
 				wezel->wartosc = 0;
 				kolejka_wezlow.push(wezel);
-				najlepszy = wezel;
-				
+				najlepszy = wezel;				
 			}
 			volatile int pomocnicza = kolejka_wezlow.size();
 			//cout << "\n" << pomocnicza;
@@ -255,8 +253,8 @@ public:
 
 						if (prawy->ograniczenie < najlepszy->wartosc)
 						{
-							prawy->lewy_potomek =NULL;
-							prawy->prawy_potomek =NULL;
+							prawy->lewy_potomek = NULL;
+							prawy->prawy_potomek = NULL;
 						}
 						else
 						{
