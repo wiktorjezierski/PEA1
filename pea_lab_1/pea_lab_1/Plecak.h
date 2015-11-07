@@ -7,6 +7,8 @@
 #include <queue>
 #include <functional>
 #include <cstdlib>
+#include <time.h>
+#include <windows.h>
 using namespace std;
 
 
@@ -132,6 +134,25 @@ public:
 	{
 		wektor_przedmiotow.erase(wektor_przedmiotow.begin(), wektor_przedmiotow.end());
 		remove("generowany.txt");
+	}
+
+	LARGE_INTEGER performanceCountStart, performanceCountEnd, Frequently;
+	double tm, tm2;
+	LARGE_INTEGER startTimer()
+	{
+		LARGE_INTEGER start;
+		DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+		QueryPerformanceCounter(&start);
+		SetThreadAffinityMask(GetCurrentThread(), oldmask);
+		return start;
+	}
+	LARGE_INTEGER stopTimer()
+	{
+		LARGE_INTEGER stop;
+		DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+		QueryPerformanceCounter(&stop);
+		SetThreadAffinityMask(GetCurrentThread(), oldmask);
+		return stop;
 	}
 	
 	void set_pojemnosc(int pojemnosc)
@@ -533,25 +554,54 @@ public:
 				switch (wybor2)
 				{
 				case 1:
-					//system("cls");
+					//QueryPerformanceFrequency(&Frequently);
+					//for (int i = 0; i < 30; i++)
+					//{
+					//	performanceCountStart = startTimer();
+					//	branch_and_bound();
+					//	performanceCountEnd = stopTimer();
+					//	tm = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
+					//	tm2 = tm * 1000.0 / Frequently.QuadPart;
+					//	cout << tm2 << endl;
+					//}
 					branch_and_bound();
 					wyswietl_wybrane_elementy();
 					cin.get();
-					//system("cls");
+
 					break;
 				case 2:
-					//system("cls");
+					//QueryPerformanceFrequency(&Frequently);
+					//for (int i = 0; i < 30; i++)
+					//{
+					//	performanceCountStart = startTimer();
+					//	best_first();
+					//	performanceCountEnd = stopTimer();
+					//	tm = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
+					//	tm2 = tm * 1000.0 / Frequently.QuadPart;
+					//	cout << tm2 << endl;
+					//}
+
 					best_first();
 					wyswietl_wybrane_elementy();
 					cin.get();
-					//system("cls");
+
 					break;
 				case 3:
-					//system("cls");
-					przeglad_zupelny();
+					QueryPerformanceFrequency(&Frequently);
+					for (int i = 0; i < 30; i++)
+					{
+						performanceCountStart = startTimer();
+						przeglad_zupelny();
+						performanceCountEnd = stopTimer();
+						tm = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
+						tm2 = tm * 1000.0 / Frequently.QuadPart;
+						cout << tm2 << endl;
+					}
+
+					/*przeglad_zupelny();*/
 					wyswietl_przeglad_zupelny();
 					cin.get();
-					//system("cls");
+
 					break;
 				case 0:
 					//system("cls");
