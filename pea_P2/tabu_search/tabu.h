@@ -103,7 +103,7 @@ Trasa tabu_search(int **tab, int liczba_iteracji, int tabu_max, int tabuTime, in
 			iteracje = 0;
 			solution = route;
 			//solution.wyswietl_trase();
-			cout<<solution.dlugosc_trasy<<endl;
+			//cout << solution.dlugosc_trasy << endl;
 		}
 	}
 	

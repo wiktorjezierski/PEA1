@@ -454,6 +454,8 @@ public:
 		tymczasowy = najlepszy;
 		vector<Wezel*>wektor_wskaznikow;
 		wektor_wskaznikow.clear();
+		int wartosc = 0,
+			waga = 0;
 		while (tymczasowy != NULL)
 		{
 			wektor_wskaznikow.push_back(tymczasowy);
@@ -471,18 +473,29 @@ public:
 					{
 						cout << "wartosc: " << wektor_przedmiotow[pom->poziom].wartosc;
 						cout << "\trozmiar: " << wektor_przedmiotow[pom->poziom].rozmiar;
+						wartosc += wektor_przedmiotow[pom->poziom].wartosc;
+						waga += wektor_przedmiotow[pom->poziom].rozmiar;
 					}
 				}
 			
 		}
+
+		cout << "\n\nSumaryczna wartosc: " << wartosc;
+		cout << "\nSumaryczny rozmiar: " << waga << endl << endl;
+		
 	}
 
 	void wyswietl_przeglad_zupelny()
 	{
+		int wartosc = 0, 
+			waga = 0;
 		for each (Przedmiot item in aktualnie_best)
 		{
 			cout << "wartosc: " << item.wartosc << "\trozmiar " << item.rozmiar << endl;
+			wartosc += item.wartosc;
+			waga += item.rozmiar;
 		}
+		cout << "\nsumaryczna wartosc: " << wartosc << "\nsumaryczny rozmiar " << waga << endl << endl;
 	}
 	
 	void wyswietl_po_wczytaniu()
@@ -491,6 +504,8 @@ public:
 		{
 			cout << "rozmiar: " << item.rozmiar << " wartosc: " << item.wartosc << endl;
 		}
+
+		cout << endl;
 	}
 
 	void zarzadzaj()
@@ -587,7 +602,7 @@ public:
 
 					break;
 				case 3:
-					QueryPerformanceFrequency(&Frequently);
+					/*QueryPerformanceFrequency(&Frequently);
 					for (int i = 0; i < 30; i++)
 					{
 						performanceCountStart = startTimer();
@@ -596,9 +611,9 @@ public:
 						tm = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 						tm2 = tm * 1000.0 / Frequently.QuadPart;
 						cout << tm2 << endl;
-					}
+					}*/
 
-					/*przeglad_zupelny();*/
+					przeglad_zupelny();
 					wyswietl_przeglad_zupelny();
 					cin.get();
 
