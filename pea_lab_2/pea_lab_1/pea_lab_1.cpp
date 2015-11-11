@@ -11,7 +11,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout << "Program wykonuje algorytm programowania dynamicznego dla decyzyjnego  problemu plecakowego\n\n";
 
 	Plecak*plecak= new Plecak();
-	
 	plecak->zarzadzaj();
 	delete plecak;
 	

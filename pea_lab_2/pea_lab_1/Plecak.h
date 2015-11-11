@@ -1,9 +1,6 @@
 # pragma once
-#include "stdafx.h"
 #include <algorithm>
-#include <stdio.h>
 #include <time.h>
-//#include <ctime>
 
 using namespace std;
 
@@ -22,8 +19,7 @@ struct Przedmiot
 	}
 };
 class Plecak
-{
-	
+{	
 	int pojemnosc;
 	int ilosc_elementow;
 	vector<Przedmiot> wektor_przedmiotow;
@@ -31,116 +27,8 @@ class Plecak
 	int **tablica_wartosci = NULL;
 
 public:
-	Plecak()
-	{
-		//string nazwa_pliku;	    
-		//int menu;
-		//
-		//cout << "jesli chcesz wczytac dane z pliku nacisnij 1\njesli chcesz wygenerowac losowa instancje nacisnij 2\n";
-		//cin >> menu;
-		//
-		//if (menu == 1)
-		//{
-		//	cout << "\npodaj nazwe pliku z instancja testowa\n";
-		//	cin >> nazwa_pliku;
-		//}
-		//if (menu == 2)
-		//{
-		//	ofstream plik_generuj;
-		//	int pom_pojemnosc;
-		//	int pom_ilosc_elementow;
-		//	plik_generuj.open("generowany.txt");
-		//	cout << "Podaj pojemnosc plecaka\n";
-		//	cin >> pom_pojemnosc;
-		//	plik_generuj << "\n" << pom_pojemnosc;
-		//	cout << "Podaj ilosc elementow\n";
-		//	cin >> pom_ilosc_elementow;
-		//	plik_generuj << "\n" << pom_ilosc_elementow;
-		//
-		//	for (int i = 0; i < pom_ilosc_elementow; i++)
-		//	{
-		//		
-		//			plik_generuj << "\n" << rand() %(int) (pom_pojemnosc*0.5) + 1 << "\t" << rand() % pom_pojemnosc + 1;
-		//	}
-		//	nazwa_pliku = "generowany.txt";
-		//	plik_generuj.close();			
-		//	
-		//}
-		//
-		//	if (menu == 1 || menu == 2)
-		//	{
-		//	if (wczytaj_plik_testowy(nazwa_pliku))
-		//	{
-		//		//pobranie pojemnosci plecaka, oraz usuniecie tej danej z wektora
-		//		pojemnosc = wektor_liczb.front();
-		//		//usuniecie pierwszego elementu wektora
-		//		wektor_liczb.erase(wektor_liczb.begin());
-		//		//pobranie ilosci elementow, oraz usuniecie tej danej z wektora
-		//		ilosc_elementow = wektor_liczb.front();
-		//		//usuniecie pierwszego elementu wektora
-		//		wektor_liczb.erase(wektor_liczb.begin());
-		//		cout << "Problem plecakowy\nzlodziej ma do dyspozycji\t" << ilosc_elementow << " elementow\n" << "pojemnosc plecaka wynosi\t" << pojemnosc << "\n";
-		//		if (wektor_liczb.size() == 2 * ilosc_elementow)
-		//		{
-		//			//stworzenie wektora zawierajacego elementy plecaka
-		//			for (int i = 0; i < wektor_liczb.size(); i = i + 2)
-		//			{
-		//				wektor_przedmiotow.push_back(Przedmiot(wektor_liczb[i], wektor_liczb[i + 1]));
-		//			}
-		//
-		//			tablica_wartosci = new  int*[ilosc_elementow+1];
-		//			for (int i = 0; i < ilosc_elementow+1; i++)
-		//			{
-		//				tablica_wartosci[i] = new int[pojemnosc+1];
-		//				
-		//			}
-		//			programowanie_dynamiczne();
-		//		}
-		//	}
-		//	else
-		//	{
-		//		cout << "Niepoprawna ilosc wczytanych wartosci\nalgorytm nie wykona sie :(\n";
-		//	}
-		//										
-		//}			
-	}
-
-	//Plecak(string nazwa_pliku)
-	//{
-	//	if (wczytaj_plik_testowy(nazwa_pliku))
-	//	{
-	//		//pobranie pojemnosci plecaka, oraz usuniecie tej danej z wektora
-	//		pojemnosc = wektor_liczb.front();
-	//		//usuniecie pierwszego elementu wektora
-	//		wektor_liczb.erase(wektor_liczb.begin());
-	//		//pobranie ilosci elementow, oraz usuniecie tej danej z wektora
-	//		ilosc_elementow = wektor_liczb.front();
-	//		//usuniecie pierwszego elementu wektora
-	//		wektor_liczb.erase(wektor_liczb.begin());
-	//		cout << "Problem plecakowy\nzlodziej ma do dyspozycji\t" << ilosc_elementow << " elementow\n" << "pojemnosc plecaka wynosi\t" << pojemnosc << "\n";
-	//		if (wektor_liczb.size() == 2 * ilosc_elementow)
-	//		{
-	//			//stworzenie wektora zawierajacego elementy plecaka
-	//			for (int i = 0; i < wektor_liczb.size(); i = i + 2)
-	//			{
-	//				wektor_przedmiotow.push_back(Przedmiot(wektor_liczb[i], wektor_liczb[i + 1]));
-	//			}
-	//
-	//			tablica_wartosci = new  int*[ilosc_elementow + 1];
-	//			for (int i = 0; i < ilosc_elementow + 1; i++)
-	//			{
-	//				tablica_wartosci[i] = new int[pojemnosc + 1];
-	//
-	//			}
-	//		programowanie_dynamiczne();
-	//		}
-	//	}
-	//	else
-	//	{
-	//		cout << "Niepoprawna ilosc wczytanych wartosci\nalgorytm nie wykona sie :(\n";
-	//	}
-	//}
-
+	Plecak(){}
+	
 	~Plecak()
 	{
 		wektor_przedmiotow.clear();
@@ -153,43 +41,6 @@ public:
 
 			}
 			delete[] tablica_wartosci;
-		}
-	}
-
-	bool wczytaj_plik_testowy(string nazwa_pliku)
-	{
-		vector<string> wektor_odczytu;
-		fstream plik;
-		plik.open(nazwa_pliku, ios::in);
-		if (plik.good())
-		{
-			//wczytanie ca³ego pliku, ka¿da linia jest oddzielnym elementem wektora_odczytu
-			string linia;
-			while (!plik.eof())
-			{
-				getline(plik, linia);
-				wektor_odczytu.push_back(linia);
-			}
-			for each (string linia in wektor_odczytu)
-			{
-				stringstream strumien(linia);
-				do
-				{
-					string sub;
-					strumien >> sub;
-					if (atoi(sub.c_str()))
-					{
-						wektor_liczb.push_back(atoi(sub.c_str()));
-					}
-
-				} while (strumien);
-			}
-			return true;
-		}
-		else 
-		{
-			cout << "Niepoprawny odczyt pliku\n";
-			return false;
 		}
 	}
 
@@ -289,12 +140,6 @@ public:
 			}
 			plik.close();
 
-			/*tablica_wartosci = new  int*[ilosc_elementow + 1];
-			for (int i = 0; i < ilosc_elementow + 1; i++)
-			{
-				tablica_wartosci[i] = new int[pojemnosc + 1];
-			}*/
-
 			return true;
 		}
 		else
@@ -302,7 +147,6 @@ public:
 			cout << "blednda nazwa pliku\n";
 			return false;
 		}
-
 	}
 
 	void wyswietl_po_wczytaniu()
@@ -324,12 +168,6 @@ public:
 			Przedmiot item(rand() % ilosc, rand() % ilosc);
 			wektor_przedmiotow.push_back(item);
 		}
-
-		/*tablica_wartosci = new  int*[ilosc_elementow + 1];
-		for (int i = 0; i < ilosc_elementow + 1; i++)
-		{
-			tablica_wartosci[i] = new int[pojemnosc + 1];
-		}*/
 		return true;
 	}
 
