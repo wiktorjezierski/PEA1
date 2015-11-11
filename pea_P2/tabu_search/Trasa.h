@@ -38,7 +38,7 @@ public:
 	//wyswietla kolejnosc odwiedzania miast
 	void wyswietl_trase()
 	{
-		cout<<endl<<"TRASA: "<<endl;
+		//cout<<endl<<"TRASA: "<<endl;
 		for(unsigned int i=0; i<trasa.size();i++)
 		{
 			cout<<trasa[i]<<" ";

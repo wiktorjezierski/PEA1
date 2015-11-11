@@ -3,6 +3,27 @@
 #include "conio.h"
 #include <ctime>
 
+
+LARGE_INTEGER performanceCountStart, performanceCountEnd, Frequently;
+double tm, tm2;
+LARGE_INTEGER startTimer()
+{
+	LARGE_INTEGER start;
+	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+	QueryPerformanceCounter(&start);
+	SetThreadAffinityMask(GetCurrentThread(), oldmask);
+	return start;
+}
+LARGE_INTEGER stopTimer()
+{
+	LARGE_INTEGER stop;
+	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+	QueryPerformanceCounter(&stop);
+	SetThreadAffinityMask(GetCurrentThread(), oldmask);
+	return stop;
+}
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	srand(time(NULL));
@@ -60,14 +81,22 @@ int _tmain(int argc, _TCHAR* argv[])
 			cout << "Rozmiar sasiedztwa: ";
 			cin >> rozmiar_sasiedztwa;
 
-			Trasa T(M);
-			Tabu tabu(T);
-			Trasa solution = tabu.tabu_search(M.macierz, liczba_iteracji, rozmiar_tabu, max_bezowocnych, rozmiar_sasiedztwa);
-			solution.wyswietl_trase();
-			cout << "DLUGOSC TRASY: " << solution.dlugosc_trasy << endl << endl;
+			QueryPerformanceFrequency(&Frequently);
+				Trasa T(M);
+				Tabu tabu(T);
 
-			break;
-
+				cout << "\nDlugosc trasy na poczatku: " << T.dlugosc_trasy << endl;
+				cout << "Trasa na poczatku algorytmu: ";
+				Trasa solution = tabu.tabu_search(M.macierz, liczba_iteracji, rozmiar_tabu, max_bezowocnych, rozmiar_sasiedztwa);
+				
+				cout << "\nDlugosc trasy na koncu: " << solution.dlugosc_trasy << endl;
+				cout << "Trasa na koncu algorytmu: ";
+				solution.wyswietl_trase();
+				cout << endl << endl;
+				
+				
+				break;
+			
 		}
 
 		case 4:
@@ -83,9 +112,6 @@ int _tmain(int argc, _TCHAR* argv[])
 			cin >> max_bezowocnych;
 			cout << "Rozmiar sasiedztwa: ";
 			cin >> rozmiar_sasiedztwa;
-
-			//string nazwy_plikow[] = {"ftv33.atsp","ftv35.atsp","ftv38.atsp","p43.atsp","ftv44.atsp","ftv47.atsp","ftv55.atsp","ftv64.atsp","ft70.atsp",
-			//"kro124p.atsp","rbg323.atsp","rbg358.atsp","rbg403.atsp","rbg443.atsp"};
 
 			string nazwa;
 			nazwa = "WYNIKI";
