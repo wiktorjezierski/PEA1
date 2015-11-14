@@ -1,6 +1,7 @@
 # pragma once
 #include <algorithm>
 #include <time.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -26,6 +27,25 @@ class Plecak
 	vector<int>wektor_liczb;
 	vector<Przedmiot> aktualnie_best;
 	int **tablica_wartosci = NULL;
+
+	LARGE_INTEGER performanceCountStart, performanceCountEnd, Frequently;
+	double tm, tm2;
+	LARGE_INTEGER startTimer()
+	{
+		LARGE_INTEGER start;
+		DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+		QueryPerformanceCounter(&start);
+		SetThreadAffinityMask(GetCurrentThread(), oldmask);
+		return start;
+	}
+	LARGE_INTEGER stopTimer()
+	{
+		LARGE_INTEGER stop;
+		DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+		QueryPerformanceCounter(&stop);
+		SetThreadAffinityMask(GetCurrentThread(), oldmask);
+		return stop;
+	}
 
 public:
 	Plecak(){}
@@ -65,7 +85,7 @@ public:
 			cout << "2. Wygeneruj losowo\n";
 			cout << "3. Zmien rozmiar plecaka\n";
 			cout << "4. Algorytm programowania dynamicznego\n"
-				 << "5. Algorytm przegladu zupelnego";
+				 << "5. Algorytm przegladu zupelnego\n";
 			cout << "0. EXIT\n";
 			cout << "-----------------------------\n\n";
 			cin >> wybor;
@@ -95,12 +115,24 @@ public:
 				cout << "\nUruchomiono algorytm programowania dynamicznego\n";
 				if (czy_wczytano)
 				{
+					/*QueryPerformanceFrequency(&Frequently);
+					for (int i = 0; i < 30; i++)
+					{
+						performanceCountStart = startTimer();
+						programowanie_dynamiczne();
+						performanceCountEnd = stopTimer();
+						tm = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
+						tm2 = tm * 1000.0 / Frequently.QuadPart;
+						cout << tm2 << endl;
+					}*/
 					programowanie_dynamiczne();
+					wyswietl_programowanie_dynamiczne();
 				}
 				else
 				{
 					cout << endl << "Nie wczytano wartosci\n";
 				}
+				break;
 			case 5:
 				cout << "\nUruchomiono algorytm przegladu zupelnego\n";
 				if (czy_wczytano)
@@ -112,7 +144,7 @@ public:
 				{
 					cout << endl << "Nie wczytano wartosci\n";
 				}
-
+				break;
 			default:
 				break;
 			}
@@ -174,6 +206,37 @@ public:
 		cout << endl;
 	}
 
+	void wyswietl_programowanie_dynamiczne()
+	{
+		bool log = true;
+		int wiersz = ilosc_elementow;
+		int kolumna = pojemnosc;
+		int rozmiar = 0;
+		do
+		{
+			if (tablica_wartosci[wiersz][kolumna] == tablica_wartosci[wiersz - 1][kolumna])
+			{
+				wiersz--;
+			}
+			else
+			{
+				cout << "\n wartosc elementu\t" << wektor_przedmiotow[wiersz - 1].wartosc << "\t rozmiar \t" << wektor_przedmiotow[wiersz - 1].rozmiar;
+				rozmiar += wektor_przedmiotow[wiersz - 1].rozmiar;
+
+				kolumna = kolumna - wektor_przedmiotow[wiersz - 1].rozmiar;
+				wiersz--;
+			}
+			if (kolumna < 0 || wiersz == 0)
+			{
+				log = false;
+			}
+
+		} while (log);
+
+		cout << "\n\nsumaryczna wartosc: " << tablica_wartosci[ilosc_elementow][pojemnosc]
+			<< "\nsumaryczny rozmiar " << rozmiar << endl << endl;
+	}
+
 	void wyswietl_przeglad_zupelny()
 	{
 		int wartosc = 0,
@@ -231,30 +294,6 @@ public:
 				}
 			}
 		}
-		bool log = true;
-		int wiersz = ilosc_elementow;
-		int kolumna = pojemnosc;
-		do
-		{
-			if (tablica_wartosci[wiersz][kolumna] == tablica_wartosci[wiersz-1][kolumna])
-			{
-				wiersz--;
-			}
-			else 
-			{
-				cout << "\n wartosc elementu\t" << wektor_przedmiotow[wiersz-1].wartosc << "\t rozmiar \t"<<wektor_przedmiotow[wiersz-1].rozmiar;
-			
-				kolumna = kolumna - wektor_przedmiotow[wiersz-1].rozmiar;
-				wiersz--;
-			}
-			if (kolumna < 0 || wiersz == 0)
-			{
-				log = false;
-			}
-
-		} while (log);
-
-		cout << "\n\nnajlepsze rozwiazanie\t" << tablica_wartosci[ilosc_elementow][pojemnosc] << endl;
 	}	
 
 	void przeglad_zupelny()
