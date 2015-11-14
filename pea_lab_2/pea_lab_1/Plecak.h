@@ -24,6 +24,7 @@ class Plecak
 	int ilosc_elementow;
 	vector<Przedmiot> wektor_przedmiotow;
 	vector<int>wektor_liczb;
+	vector<Przedmiot> aktualnie_best;
 	int **tablica_wartosci = NULL;
 
 public:
@@ -63,7 +64,8 @@ public:
 			cout << "1. Wczytaj z pliku\n";
 			cout << "2. Wygeneruj losowo\n";
 			cout << "3. Zmien rozmiar plecaka\n";
-			cout << "4. Algorytm programowania dynamicznego\n";
+			cout << "4. Algorytm programowania dynamicznego\n"
+				 << "5. Algorytm przegladu zupelnego";
 			cout << "0. EXIT\n";
 			cout << "-----------------------------\n\n";
 			cin >> wybor;
@@ -81,6 +83,7 @@ public:
 				int ile;
 				cin >> ile;
 				czy_wczytano = losowo(ile);
+				wyswietl_po_wczytaniu();
 				cout << "\n";
 				break;
 			case 3:
@@ -98,6 +101,18 @@ public:
 				{
 					cout << endl << "Nie wczytano wartosci\n";
 				}
+			case 5:
+				cout << "\nUruchomiono algorytm przegladu zupelnego\n";
+				if (czy_wczytano)
+				{
+					przeglad_zupelny();
+					wyswietl_przeglad_zupelny();
+				}
+				else
+				{
+					cout << endl << "Nie wczytano wartosci\n";
+				}
+
 			default:
 				break;
 			}
@@ -157,6 +172,19 @@ public:
 		}
 
 		cout << endl;
+	}
+
+	void wyswietl_przeglad_zupelny()
+	{
+		int wartosc = 0,
+			waga = 0;
+		for each (Przedmiot item in aktualnie_best)
+		{
+			cout << "wartosc: " << item.wartosc << "\trozmiar " << item.rozmiar << endl;
+			wartosc += item.wartosc;
+			waga += item.rozmiar;
+		}
+		cout << "\nsumaryczna wartosc: " << wartosc << "\nsumaryczny rozmiar " << waga << endl << endl;
 	}
 
 	bool losowo(int ilosc)
@@ -227,5 +255,50 @@ public:
 		} while (log);
 
 		cout << "\n\nnajlepsze rozwiazanie\t" << tablica_wartosci[ilosc_elementow][pojemnosc] << endl;
-	}		
+	}	
+
+	void przeglad_zupelny()
+	{
+		vector<int> skladowe;
+		vector<Przedmiot> temp1;
+
+		int kombinacje = pow(2, wektor_przedmiotow.size());
+		int best_wartosc = 0;
+		int liczba_dziesietna;
+
+		for (int i = 0; i < kombinacje; i++)		//for po wszystkich kombinacjach
+		{
+			int aktualna_wartosc = 0;
+			int aktualny_rozmiar = 0;
+			skladowe.clear();
+			temp1.clear();
+			liczba_dziesietna = i;
+
+			while (liczba_dziesietna > 0)		//rozklad na dwojkowe
+			{
+				skladowe.push_back(liczba_dziesietna % 2);
+				liczba_dziesietna = liczba_dziesietna / 2;
+			}
+
+			for (int j = 0; j < skladowe.size(); j++)	//funkcja bioraca elementy tam gdzie jest 1
+			{
+				if (skladowe[j] == 1)
+				{
+					aktualny_rozmiar += wektor_przedmiotow[j].rozmiar;
+					aktualna_wartosc += wektor_przedmiotow[j].wartosc;
+					temp1.push_back(wektor_przedmiotow[j]);
+				}
+			}
+
+			if (aktualny_rozmiar <= pojemnosc && aktualna_wartosc > best_wartosc)
+			{
+				best_wartosc = aktualna_wartosc;
+				aktualnie_best.clear();
+				for (int k = 0; k < temp1.size(); k++)
+				{
+					aktualnie_best.push_back(temp1[k]);	//przepisanie najlepszej kombinacji
+				}
+			}
+		}
+	}
 };
