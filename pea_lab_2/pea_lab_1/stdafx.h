@@ -5,14 +5,11 @@
 
 #pragma once
 
-#include "targetver.h"
+//#include "targetver.h"
 
-#include <stdio.h>
 #include <iostream>
 #include <tchar.h>
-#include <string>
 #include <fstream>
-//#include <cstdlib>
 #include <sstream>
 #include <vector>
 

@@ -13,7 +13,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Plecak*plecak= new Plecak();
 	plecak->zarzadzaj();
 	delete plecak;
-	
+
 	cin.ignore();
 	cin.get();
 	return 0;

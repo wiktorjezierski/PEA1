@@ -1,5 +1,4 @@
-# pragma once
-#include <algorithm>
+#pragma once
 #include <time.h>
 #include <Windows.h>
 
