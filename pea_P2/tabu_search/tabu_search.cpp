@@ -67,6 +67,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			Macierz M2(filename);
 			M = M2;
 			odleglosci = M.macierz;
+			cout << endl;
+			M.wyswietl();
+			cout << endl;
 
 			break;
 		}

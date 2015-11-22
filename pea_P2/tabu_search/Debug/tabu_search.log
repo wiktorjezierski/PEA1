@@ -1,4 +1,4 @@
-﻿Build started 2015-11-11 13:34:56.
+﻿Build started 2015-11-22 09:58:09.
      1>Project "D:\c++\PEA_1\pea_P2\tabu_search\tabu_search.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          E:\Program Files\Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\tabu_search.pch" /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt tabu_search.cpp
@@ -13,4 +13,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.45
+Time Elapsed 00:00:01.70
