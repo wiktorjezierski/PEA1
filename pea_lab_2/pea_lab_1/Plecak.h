@@ -99,9 +99,8 @@ public:
 				break;
 			case 2:
 				cout << "Wygeneruj losowo()\nIle elementow wygenerowac?\n> ";
-				int ile;
-				cin >> ile;
-				czy_wczytano = losowo(ile);
+				cin >> ilosc_elementow;
+				czy_wczytano = losowo(ilosc_elementow);
 				wyswietl_po_wczytaniu();
 				cout << "\n";
 				break;
