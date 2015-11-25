@@ -12,13 +12,14 @@ DNA::~DNA()
 {
 }
 
-void DNA::wczytaj(string nazwa_pliku)
+bool DNA::wczytaj(string nazwa_pliku)
 {
 	fstream plik;
 	plik.open(nazwa_pliku + ".txt", ios::in);
 	if (!plik.good())
 	{
 		cout << "niepoprawnie wczytany plik\n";
+		return false;
 	}
 	else if (plik.good())
 	{
@@ -59,6 +60,7 @@ void DNA::wczytaj(string nazwa_pliku)
 			konwersja << tekst2;
 			konwersja >> zrodlowa[i][ilosc_miast - 1];
 		}
+		return true;
 	}
 }
 
@@ -179,6 +181,85 @@ void DNA::zarzadzaj()
 	//wyswietl_wszystko();
 }
 
+void DNA::menu()
+{
+	int wybor = 666;
+	int wybor2;
+	bool czy_wczytano = false;
+	string nazwaPliku;
+
+	cout << "Podaj rozmiar plecaka: ";
+	//cin >> pojemnosc;
+	system("cls");
+
+	while (wybor != 0) {
+		wybor2 = 666;
+		cout << "\tMENU\n";
+		cout << "Wybierz opcje:\n";
+		cout << "-----------------------------\n";
+		cout << "1. Wczytaj z pliku\n";
+		//cout << "2. Wygeneruj losowo\n";
+		cout << "3. Algorytm Genetyczny\n";
+		cout << "0. EXIT\n";
+		cout << "-----------------------------\n\n";
+		cin >> wybor;
+		switch (wybor)
+		{
+		case 1:
+			cout << "Podaj nazwe pliku:\n";
+			cin >> nazwaPliku;
+			czy_wczytano = wczytaj(nazwaPliku);
+			wyswietl_wczytane_miasta();
+			cout << "\n";
+			break;
+		//case 2:
+			/*cout << "Wygeneruj losowo()\nIle elementow wygenerowac?\n> ";
+			cin >> ilosc_elementow;
+			czy_wczytano = losowo(ilosc_elementow);
+			wyswietl_po_wczytaniu();
+			cout << "\n";
+			break;*/
+
+		case 3:
+			cout << "\nUruchomiono algorytm programowania dynamicznego\n";
+			if (czy_wczytano)
+			{
+				/*QueryPerformanceFrequency(&Frequently);
+				for (int i = 0; i < 30; i++)
+				{
+				performanceCountStart = startTimer();
+				zarzadzaj();
+				performanceCountEnd = stopTimer();
+				tm = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
+				tm2 = tm * 1000.0 / Frequently.QuadPart;
+				cout << tm2 << endl;
+				}*/
+				zarzadzaj();
+				//wyswietl_programowanie_dynamiczne();
+			}
+			else
+			{
+				cout << endl << "Nie wczytano wartosci\n";
+			}
+			break;
+		//case 5:
+		//	cout << "\nUruchomiono algorytm przegladu zupelnego\n";
+		//	if (czy_wczytano)
+		//	{
+		//		przeglad_zupelny();
+		//		wyswietl_przeglad_zupelny();
+		//	}
+		//	else
+		//	{
+		//		cout << endl << "Nie wczytano wartosci\n";
+		//	}
+		//	break;
+		default:
+			break;
+		}
+	}
+}
+
 
 void DNA::wyswietl(int wybor)
 {
@@ -192,4 +273,22 @@ void DNA::wyswietl_wszystko()
 		g.wyswietl();
 		cout << endl;
 	}
+}
+
+
+LARGE_INTEGER startTimer()
+{
+	LARGE_INTEGER start;
+	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+	QueryPerformanceCounter(&start);
+	SetThreadAffinityMask(GetCurrentThread(), oldmask);
+	return start;
+}
+LARGE_INTEGER stopTimer()
+{
+	LARGE_INTEGER stop;
+	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+	QueryPerformanceCounter(&stop);
+	SetThreadAffinityMask(GetCurrentThread(), oldmask);
+	return stop;
 }

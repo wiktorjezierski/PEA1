@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <ctime>
+#include <windows.h>
 #include "genom.h"
 using namespace std;
 
@@ -16,7 +18,10 @@ public:
 	int ilosc_miast;
 	int size;
 
-	void wczytaj(string nazwa_pliku);
+	LARGE_INTEGER performanceCountStart, performanceCountEnd, Frequently;
+	double tm, tm2;
+
+	bool wczytaj(string nazwa_pliku);
 	void wyswietl_wczytane_miasta();
 	int droga_miedzy_miastami(int pierwsze, int drugie);
 	void generuj_warunki_poczatkowe();
@@ -25,6 +30,7 @@ public:
 	int wybierz_najlepsze();
 	int selekcja_naturalna();
 	void zarzadzaj();
+	void menu();
 	void wyswietl(int wybor);
 	void wyswietl_wszystko();
 };

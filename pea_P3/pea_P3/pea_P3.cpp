@@ -9,8 +9,9 @@ int main()
 {
 	DNA dna;
 	cout << "start\n";
-	dna.wczytaj("k2");
-	dna.zarzadzaj();
+	//dna.wczytaj("k2");
+	//dna.zarzadzaj();
+	dna.menu();
 	cout << "\nstop";
 	cin.ignore();
 	cin.get();

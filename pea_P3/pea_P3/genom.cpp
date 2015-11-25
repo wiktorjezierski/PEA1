@@ -62,20 +62,20 @@ bool genom::nie_zawiera(int miasto)
 		return true;
 }
 
-void genom::mutacja(genom &g1, genom &g2, int begin, int end)
-{
-	vector<int*> temp;
-
-	for (int i = begin; i <= end; i++)
-	{
-		temp.push_back(g1.droga[i]);
-		g1.droga.erase(g1.droga.begin() + i);
-		g1.droga.insert(g1.droga.begin + i,g2.droga[i]);
-
-		g2.droga.erase(g2.droga.begin() + i);
-		g2.droga.insert(g2.droga.begin + i, temp[i]);
-	}
-}
+//void genom::mutacja(genom g1, genom g2, int begin, int end)
+//{
+//	vector<int*> temp;
+//
+//	for (int i = begin; i <= end; i++)
+//	{
+//		temp.push_back(g1.droga[i]);
+//		g1.droga.erase(g1.droga.begin() + i);
+//		g1.droga.insert(g1.droga.begin + i,g2.droga[i]);
+//
+//		g2.droga.erase(g2.droga.begin() + i);
+//		g2.droga.insert(g2.droga.begin + i, temp[i]);
+//	}
+//}
 
 
 

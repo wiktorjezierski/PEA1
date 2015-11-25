@@ -15,6 +15,6 @@ public:
 	bool zawiera_raz(int miasto);
 	bool nie_zawiera(int miasto);
 
-	static void mutacja(genom &g1, genom &g2, int begin, int end);
+	//static void mutacja(genom g1, genom g2, int begin, int end);
 };
 
