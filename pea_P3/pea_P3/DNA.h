@@ -33,5 +33,7 @@ public:
 	void menu();
 	void wyswietl(int wybor);
 	void wyswietl_wszystko();
+	LARGE_INTEGER startTimer();
+	LARGE_INTEGER stopTimer();
 };
 

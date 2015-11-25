@@ -25,10 +25,14 @@ void genom::dodaj(int skad, int dokad, int wartosc)
 //funkcja do sprawdzenia poprawnosci
 void genom::wyswietl()
 {
+	int calosc = 0;
 	for (int i = 0; i < droga.size(); i++)
 	{
-		cout << droga[i][0] << " " << droga[i][1] << " " << droga[i][2] << "\n";
+		cout << droga[i][0] << "\t" << droga[i][1] << "\t" << droga[i][2] << "\n";
+		calosc += droga[i][2];
 	}
+
+	cout << "\nCalkowita dlugosc drogi wynosi: " << calosc << endl << endl;
 }
 
 bool genom::zawiera_raz(int miasto)

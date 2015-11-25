@@ -159,7 +159,7 @@ int DNA::selekcja_naturalna()
 {
 	for (int i = 0; i < size - 2; i++)
 	{
-		cout << "generuj " << i << endl;
+		//cout << "generuj " << i << endl;
 		generuj();
 
 		if (lista_genomow.size() > 1)
@@ -176,9 +176,10 @@ void DNA::zarzadzaj()
 {
 	generuj_warunki_poczatkowe();
 	int wybor = selekcja_naturalna();
-	//wyswietl_wszystko();
+	////wyswietl_wszystko();
 	wyswietl(wybor);
-	//wyswietl_wszystko();
+	////wyswietl_wszystko();
+	lista_genomow.clear();
 }
 
 void DNA::menu()
@@ -199,7 +200,7 @@ void DNA::menu()
 		cout << "-----------------------------\n";
 		cout << "1. Wczytaj z pliku\n";
 		//cout << "2. Wygeneruj losowo\n";
-		cout << "3. Algorytm Genetyczny\n";
+		cout << "2. Algorytm Genetyczny\n";
 		cout << "0. EXIT\n";
 		cout << "-----------------------------\n\n";
 		cin >> wybor;
@@ -220,10 +221,11 @@ void DNA::menu()
 			cout << "\n";
 			break;*/
 
-		case 3:
-			cout << "\nUruchomiono algorytm programowania dynamicznego\n";
+		case 2:
+			cout << "\nUruchomiono algorytm genetyczny\n";
 			if (czy_wczytano)
 			{
+				int ile;
 				/*QueryPerformanceFrequency(&Frequently);
 				for (int i = 0; i < 30; i++)
 				{
@@ -234,6 +236,10 @@ void DNA::menu()
 				tm2 = tm * 1000.0 / Frequently.QuadPart;
 				cout << tm2 << endl;
 				}*/
+				cout << "podaj liczbe krzyzowan\n>";
+				cin >> ile;
+				cout << "podaj liczbe osobnikow\n>";
+				cin >> ile;
 				zarzadzaj();
 				//wyswietl_programowanie_dynamiczne();
 			}
@@ -276,7 +282,7 @@ void DNA::wyswietl_wszystko()
 }
 
 
-LARGE_INTEGER startTimer()
+LARGE_INTEGER DNA::startTimer()
 {
 	LARGE_INTEGER start;
 	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
@@ -284,7 +290,7 @@ LARGE_INTEGER startTimer()
 	SetThreadAffinityMask(GetCurrentThread(), oldmask);
 	return start;
 }
-LARGE_INTEGER stopTimer()
+LARGE_INTEGER DNA::stopTimer()
 {
 	LARGE_INTEGER stop;
 	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
