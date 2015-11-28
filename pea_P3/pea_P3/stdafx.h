@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include <stdio.h>
+/*#include <stdio.h>
 #include <tchar.h>
-#include <iostream>
+#include <iostream>*/
 
 using namespace std;
 

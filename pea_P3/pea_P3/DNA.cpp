@@ -238,6 +238,8 @@ void DNA::menu()
 				}*/
 				cout << "podaj liczbe krzyzowan\n>";
 				cin >> ile;
+				cout << "podaj liczbe mutacji\n>";
+				cin >> ile;
 				cout << "podaj liczbe osobnikow\n>";
 				cin >> ile;
 				zarzadzaj();
