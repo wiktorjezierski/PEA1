@@ -17,6 +17,7 @@ public:
 	int **zrodlowa;
 	int ilosc_miast;
 	int size;
+	int osobnicy;
 
 	LARGE_INTEGER performanceCountStart, performanceCountEnd, Frequently;
 	double tm, tm2;

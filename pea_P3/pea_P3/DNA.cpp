@@ -86,7 +86,7 @@ int DNA::droga_miedzy_miastami(int pierwsze, int drugie)
 
 void DNA::generuj_warunki_poczatkowe()
 {
-	for (int i = 0; i < size - 1; i++)
+	for (int i = 0; i < osobnicy; i++)
 	{
 			genom gen;
 			int pierwsze = rand() % ilosc_miast;
@@ -241,7 +241,7 @@ void DNA::menu()
 				cout << "podaj liczbe mutacji\n>";
 				cin >> ile;
 				cout << "podaj liczbe osobnikow\n>";
-				cin >> ile;
+				cin >> osobnicy;
 				zarzadzaj();
 				//wyswietl_programowanie_dynamiczne();
 			}
