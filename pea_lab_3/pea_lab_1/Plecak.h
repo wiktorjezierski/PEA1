@@ -204,6 +204,20 @@ public:
 		cout << endl;
 	}
 
+	int MaxWartosc()
+	{
+		int temp = MININT;
+		for each (Przedmiot item in wektor_przedmiotow)
+		{
+			if (item.wartosc > temp)
+			{
+				temp = item.wartosc;
+			}
+		}
+
+		return temp;
+	}
+
 	void wyswietl_programowanie_dynamiczne()
 	{
 		bool log = true;
@@ -262,35 +276,59 @@ public:
 
 	void  programowanie_dynamiczne()
 	{
+		int p_max = MaxWartosc();
+		int poziom = ilosc_elementow * p_max;
+		int y = 0;
+
 		tablica_wartosci = new  int*[ilosc_elementow + 1];
-		for (int i = 0; i < ilosc_elementow + 1; i++)
+		for (int i = 0; i <= ilosc_elementow; i++)
 		{
-			tablica_wartosci[i] = new int[pojemnosc + 1];
+			tablica_wartosci[i] = new int[poziom + 1];
 		}
 
-		for (int i = 0; i <= ilosc_elementow;i++)
+
+
+		for (int i = 0; i <= ilosc_elementow; i++)
 		{
 			tablica_wartosci[i][0] = 0;
 		}
 
-		for (int i = 0; i <= pojemnosc; i++)
+		for (int i = 1; i <= poziom; i++)
 		{
-			tablica_wartosci[0][i] = 0;
+			tablica_wartosci[0][i] = MAXINT;
 		}
+		
 
-		for (int i = 1; i <= ilosc_elementow;i++)
+		for (int i = 1; i <= ilosc_elementow; i++)
 		{
-			for (int j = 0; j <= pojemnosc; j++)
+			
+			for (int j = 1; j <= poziom; j++)
 			{
-				if (wektor_przedmiotow[i-1].rozmiar > j)
+				if ((j - wektor_przedmiotow[i-1].wartosc) < 0 || tablica_wartosci[i - 1][j - wektor_przedmiotow[i-1].wartosc] == MAXINT)
 				{
 					tablica_wartosci[i][j] = tablica_wartosci[i - 1][j];
 				}
 				else
 				{
-					tablica_wartosci[i][j] = max(tablica_wartosci[i - 1][j], wektor_przedmiotow[i-1].wartosc + tablica_wartosci[i - 1][j - wektor_przedmiotow[i-1].rozmiar]);
+					tablica_wartosci[i][j] = min(tablica_wartosci[i - 1][j], 
+						wektor_przedmiotow[i-1].rozmiar + tablica_wartosci[i - 1][j - wektor_przedmiotow[i-1].wartosc]);
 				}
 			}
+		}
+
+		for (int i = 0; i <= ilosc_elementow; i++)
+		{
+
+			for (int j = 0; j <= poziom; j++)
+			{
+				if (tablica_wartosci[i][j] == MAXINT)
+				{
+					cout << "MAX ";
+				}
+				else
+					cout << tablica_wartosci[i][j] << " ";
+			}
+			cout << endl << endl;
 		}
 	}	
 
