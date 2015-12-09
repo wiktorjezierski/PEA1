@@ -23,6 +23,7 @@ class Plecak
 	int pojemnosc;
 	int ilosc_elementow;
 	int p_max;
+	float Epsylon;
 	vector<Przedmiot> wektor_przedmiotow;
 	vector<int>wektor_liczb;
 	vector<Przedmiot> aktualnie_best;
@@ -124,6 +125,8 @@ public:
 						tm2 = tm * 1000.0 / Frequently.QuadPart;
 						cout << tm2 << endl;
 					}*/
+					cout << "Podaj Epsylon \n>";
+					cin >> Epsylon;
 					programowanie_dynamiczne();
 					//wyswietl_programowanie_dynamiczne();
 				}
@@ -219,6 +222,20 @@ public:
 		p_max = temp;
 	}
 
+	void skalowanie()
+	{
+		float K;
+
+		MaxWartosc();
+
+		K = (Epsylon * p_max) / ilosc_elementow;
+
+		for each (Przedmiot item in wektor_przedmiotow)
+		{
+			item.wartosc = (int)item.wartosc / K;
+		}
+	}
+
 	void wyswietl_programowanie_dynamiczne()
 	{
 		bool log = true;
@@ -277,11 +294,13 @@ public:
 
 	void  programowanie_dynamiczne()
 	{
-		MaxWartosc();
 		int poziom = ilosc_elementow * p_max;
 		int y = 0;
 		int profit = 0;
 		vector<Przedmiot> wynik;
+
+		skalowanie();
+		MaxWartosc();
 
 		tablica_wartosci = new  int*[ilosc_elementow + 1];
 		for (int i = 0; i <= ilosc_elementow; i++)
