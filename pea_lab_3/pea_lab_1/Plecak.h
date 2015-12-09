@@ -232,7 +232,7 @@ public:
 
 		for each (Przedmiot item in wektor_przedmiotow)
 		{
-			item.wartosc = (int)item.wartosc / K;
+			item.wartosc = (int)(item.wartosc / K);
 		}
 	}
 
@@ -294,13 +294,15 @@ public:
 
 	void  programowanie_dynamiczne()
 	{
-		int poziom = ilosc_elementow * p_max;
+		int poziom;
 		int y = 0;
 		int profit = 0;
-		vector<Przedmiot> wynik;
+		int allWaga = 0;
+		//vector<Przedmiot> wynik;
 
 		skalowanie();
 		MaxWartosc();
+		poziom = ilosc_elementow * p_max;
 
 		tablica_wartosci = new  int*[ilosc_elementow + 1];
 		for (int i = 0; i <= ilosc_elementow; i++)
@@ -339,11 +341,13 @@ public:
 				if (tablica_wartosci[ilosc_elementow][j] <= pojemnosc)
 				{
 					profit = j;
+					allWaga = tablica_wartosci[i][j];
 				}
 			}
 		}
 
-		cout << "profit: " << profit << endl;
+		cout << "wartosc: " << profit << endl;
+		cout << "waga: " << allWaga << endl;
 
 		/*for (int i = 0; i <= ilosc_elementow; i++)
 		{
