@@ -112,7 +112,7 @@ public:
 				cout << "\n";
 				break;
 			case 4:
-				cout << "\nUruchomiono algorytm programowania dynamicznego\n";
+				cout << "\nUruchomiono algorytm Aproksymacyjnego FPTAS problemu plecakowego\n";
 				if (czy_wczytano)
 				{
 					/*QueryPerformanceFrequency(&Frequently);
@@ -297,7 +297,7 @@ public:
 		int poziom;
 		int y = 0;
 		int profit = 0;
-		int allWaga = 0;
+		int waga_calkowita = 0;
 		//vector<Przedmiot> wynik;
 
 		skalowanie();
@@ -341,13 +341,13 @@ public:
 				if (tablica_wartosci[ilosc_elementow][j] <= pojemnosc)
 				{
 					profit = j;
-					allWaga = tablica_wartosci[i][j];
+					waga_calkowita = tablica_wartosci[i][j];
 				}
 			}
 		}
 
 		cout << "wartosc: " << profit << endl;
-		cout << "waga: " << allWaga << endl;
+		cout << "waga: " << waga_calkowita << endl;
 
 		/*for (int i = 0; i <= ilosc_elementow; i++)
 		{
