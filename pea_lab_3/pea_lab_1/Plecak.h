@@ -22,6 +22,7 @@ class Plecak
 {	
 	int pojemnosc;
 	int ilosc_elementow;
+	int p_max;
 	vector<Przedmiot> wektor_przedmiotow;
 	vector<int>wektor_liczb;
 	vector<Przedmiot> aktualnie_best;
@@ -124,7 +125,7 @@ public:
 						cout << tm2 << endl;
 					}*/
 					programowanie_dynamiczne();
-					wyswietl_programowanie_dynamiczne();
+					//wyswietl_programowanie_dynamiczne();
 				}
 				else
 				{
@@ -204,7 +205,7 @@ public:
 		cout << endl;
 	}
 
-	int MaxWartosc()
+	void MaxWartosc()
 	{
 		int temp = MININT;
 		for each (Przedmiot item in wektor_przedmiotow)
@@ -215,14 +216,14 @@ public:
 			}
 		}
 
-		return temp;
+		p_max = temp;
 	}
 
 	void wyswietl_programowanie_dynamiczne()
 	{
 		bool log = true;
 		int wiersz = ilosc_elementow;
-		int kolumna = pojemnosc;
+		int kolumna = 5;
 		int rozmiar = 0;
 		do
 		{
@@ -276,9 +277,11 @@ public:
 
 	void  programowanie_dynamiczne()
 	{
-		int p_max = MaxWartosc();
+		MaxWartosc();
 		int poziom = ilosc_elementow * p_max;
 		int y = 0;
+		int profit = 0;
+		vector<Przedmiot> wynik;
 
 		tablica_wartosci = new  int*[ilosc_elementow + 1];
 		for (int i = 0; i <= ilosc_elementow; i++)
@@ -313,10 +316,17 @@ public:
 					tablica_wartosci[i][j] = min(tablica_wartosci[i - 1][j], 
 						wektor_przedmiotow[i-1].rozmiar + tablica_wartosci[i - 1][j - wektor_przedmiotow[i-1].wartosc]);
 				}
+
+				if (tablica_wartosci[ilosc_elementow][j] <= pojemnosc)
+				{
+					profit = j;
+				}
 			}
 		}
 
-		for (int i = 0; i <= ilosc_elementow; i++)
+		cout << "profit: " << profit << endl;
+
+		/*for (int i = 0; i <= ilosc_elementow; i++)
 		{
 
 			for (int j = 0; j <= poziom; j++)
@@ -329,7 +339,7 @@ public:
 					cout << tablica_wartosci[i][j] << " ";
 			}
 			cout << endl << endl;
-		}
+		}*/
 	}	
 
 	void przeglad_zupelny()
