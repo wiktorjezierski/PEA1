@@ -236,11 +236,11 @@ void DNA::menu()
 				tm2 = tm * 1000.0 / Frequently.QuadPart;
 				cout << tm2 << endl;
 				}*/
-				cout << "podaj liczbe krzyzowan\n>";
+				cout << "podaj prawdopodobienstwo krzyzowan\n>";
 				cin >> ile;
-				cout << "podaj liczbe mutacji\n>";
+				cout << "podaj prawdopodobienstwo mutacji\n>";
 				cin >> ile;
-				cout << "podaj liczbe osobnikow\n>";
+				cout << "podaj gorna granice liczby osobnikow\n>";
 				cin >> osobnicy;
 				zarzadzaj();
 				//wyswietl_programowanie_dynamiczne();
