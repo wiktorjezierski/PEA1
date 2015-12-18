@@ -17,6 +17,8 @@ struct Przedmiot
 		//wartosc i rozmiar sa rzutowane na double po to aby wynik dzielenia posiada³ czesc ulamkowa
 		this->wartosc_do_rozmiaru = (double)(wartosc) / (double)(rozmiar);
 	}
+
+	Przedmiot(){}
 };
 class Plecak
 {	
@@ -27,7 +29,8 @@ class Plecak
 	vector<Przedmiot> wektor_przedmiotow;
 	vector<int>wektor_liczb;
 	vector<Przedmiot> aktualnie_best;
-	int **tablica_wartosci = NULL;
+	int **tablica_wag = NULL;
+	int **indeksy = NULL;
 
 	LARGE_INTEGER performanceCountStart, performanceCountEnd, Frequently;
 	double tm, tm2;
@@ -55,14 +58,24 @@ public:
 	{
 		wektor_przedmiotow.clear();
 		wektor_liczb.clear();
-		if (tablica_wartosci!=NULL)
+		if (tablica_wag!=NULL)
 		{
 			for (int i = 0; i <= ilosc_elementow; i++)
 			{
-				delete[] tablica_wartosci[i];
+				delete[] tablica_wag[i];
 
 			}
-			delete[] tablica_wartosci;
+			delete[] tablica_wag;
+		}
+
+		if (indeksy != NULL)
+		{
+			for (int i = 0; i <= ilosc_elementow; i++)
+			{
+				delete[] indeksy[i];
+
+			}
+			delete[] indeksy;
 		}
 	}
 
@@ -115,16 +128,22 @@ public:
 				cout << "\nUruchomiono algorytm Aproksymacyjnego FPTAS problemu plecakowego\n";
 				if (czy_wczytano)
 				{
-					/*QueryPerformanceFrequency(&Frequently);
+					/*cout << "Podaj Epsylon \n>";
+					cin >> Epsylon;
+
+					QueryPerformanceFrequency(&Frequently);
 					for (int i = 0; i < 30; i++)
 					{
 						performanceCountStart = startTimer();
+
 						programowanie_dynamiczne();
 						performanceCountEnd = stopTimer();
 						tm = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 						tm2 = tm * 1000.0 / Frequently.QuadPart;
 						cout << tm2 << endl;
 					}*/
+
+
 					cout << "Podaj Epsylon \n>";
 					cin >> Epsylon;
 					programowanie_dynamiczne();
@@ -244,7 +263,7 @@ public:
 		int rozmiar = 0;
 		do
 		{
-			if (tablica_wartosci[wiersz][kolumna] == tablica_wartosci[wiersz - 1][kolumna])
+			if (tablica_wag[wiersz][kolumna] == tablica_wag[wiersz - 1][kolumna])
 			{
 				wiersz--;
 			}
@@ -263,7 +282,7 @@ public:
 
 		} while (log);
 
-		cout << "\n\nsumaryczna wartosc: " << tablica_wartosci[ilosc_elementow][pojemnosc]
+		cout << "\n\nsumaryczna wartosc: " << tablica_wag[ilosc_elementow][pojemnosc]
 			<< "\nsumaryczny rozmiar " << rozmiar << endl << endl;
 	}
 
@@ -278,6 +297,37 @@ public:
 			waga += item.rozmiar;
 		}
 		cout << "\nsumaryczna wartosc: " << wartosc << "\nsumaryczny rozmiar " << waga << endl << endl;
+	}
+
+	void wyswietl()
+	{
+		int x;
+		for (int i = ilosc_elementow * p_max - 1; i > 0; i--)
+		{
+			if (indeksy[ilosc_elementow][i] != -1)
+			{
+				x = i;
+				break;
+			}
+				
+		}
+		int y = ilosc_elementow;
+		int temp = 0;
+		boolean guard = true;
+		Przedmiot p;
+		while (temp != -1 && guard == true)
+		{
+			guard = false;
+			if (y >= 0 && x >= 0) 
+			{
+				temp = indeksy[y][x];
+				p = wektor_przedmiotow[indeksy[y][x] - 1];
+				cout << "wartosc:\t" << p.wartosc << " waga\t" << p.rozmiar << endl;
+				x -= p.rozmiar;
+				y -= p.wartosc;
+				guard = true;
+			}
+		}
 	}
 
 	bool losowo(int ilosc)
@@ -304,22 +354,29 @@ public:
 		MaxWartosc();
 		poziom = ilosc_elementow * p_max;
 
-		tablica_wartosci = new  int*[ilosc_elementow + 1];
+		tablica_wag = new  int*[ilosc_elementow + 1];
 		for (int i = 0; i <= ilosc_elementow; i++)
 		{
-			tablica_wartosci[i] = new int[poziom + 1];
+			tablica_wag[i] = new int[poziom + 1];
+		}
+
+		indeksy = new int*[ilosc_elementow + 1];
+		for (int i = 0; i <= ilosc_elementow; i++)
+		{
+			indeksy[i] = new int[poziom + 1];
 		}
 
 
-
 		for (int i = 0; i <= ilosc_elementow; i++)
 		{
-			tablica_wartosci[i][0] = 0;
+			tablica_wag[i][0] = 0;
+			indeksy[i][0] = -1;
 		}
 
 		for (int i = 1; i <= poziom; i++)
 		{
-			tablica_wartosci[0][i] = MAXINT;
+			tablica_wag[0][i] = MAXINT;
+			indeksy[0][i] = -1;
 		}
 		
 
@@ -328,41 +385,45 @@ public:
 			
 			for (int j = 1; j <= poziom; j++)
 			{
-				if ((j - wektor_przedmiotow[i-1].wartosc) < 0 || tablica_wartosci[i - 1][j - wektor_przedmiotow[i-1].wartosc] == MAXINT)
+				if ((j - wektor_przedmiotow[i-1].wartosc) < 0 || tablica_wag[i - 1][j - wektor_przedmiotow[i-1].wartosc] == MAXINT)
 				{
-					tablica_wartosci[i][j] = tablica_wartosci[i - 1][j];
+					tablica_wag[i][j] = tablica_wag[i - 1][j];
+					indeksy[i][j] = -1;
 				}
 				else
 				{
-					tablica_wartosci[i][j] = min(tablica_wartosci[i - 1][j], 
-						wektor_przedmiotow[i-1].rozmiar + tablica_wartosci[i - 1][j - wektor_przedmiotow[i-1].wartosc]);
+					tablica_wag[i][j] = min(tablica_wag[i - 1][j], 
+						wektor_przedmiotow[i-1].rozmiar + tablica_wag[i - 1][j - wektor_przedmiotow[i-1].wartosc]);
+					indeksy[i][j] = i;
 				}
 
-				if (tablica_wartosci[ilosc_elementow][j] <= pojemnosc)
+				if (tablica_wag[ilosc_elementow][j] <= pojemnosc)
 				{
 					profit = j;
-					waga_calkowita = tablica_wartosci[i][j];
+					waga_calkowita = tablica_wag[i][j];
 				}
 			}
 		}
 
+		
+
 		cout << "wartosc: " << profit << endl;
 		cout << "waga: " << waga_calkowita << endl;
 
-		/*for (int i = 0; i <= ilosc_elementow; i++)
-		{
+		//for (int i = 0; i <= ilosc_elementow; i++)
+		//{
 
-			for (int j = 0; j <= poziom; j++)
-			{
-				if (tablica_wartosci[i][j] == MAXINT)
-				{
-					cout << "MAX ";
-				}
-				else
-					cout << tablica_wartosci[i][j] << " ";
-			}
-			cout << endl << endl;
-		}*/
+		//	for (int j = 0; j <= poziom; j++)
+		//	{
+		//		if (tablica_wag[i][j] == MAXINT)
+		//			cout << "8 ";
+		//		else
+		//		cout << tablica_wag[i][j] << " ";
+		//	}
+		//	cout << endl << endl;
+		//}
+
+		//wyswietl();
 	}	
 
 	void przeglad_zupelny()
