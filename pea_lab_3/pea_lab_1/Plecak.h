@@ -18,6 +18,11 @@ struct Przedmiot
 		this->wartosc_do_rozmiaru = (double)(wartosc) / (double)(rozmiar);
 	}
 
+	void wyswietl()
+	{
+		cout << "waga: " << rozmiar << "\twartosc: " << wartosc << endl;
+	}
+
 	Przedmiot(){}
 };
 class Plecak
@@ -147,7 +152,7 @@ public:
 					cout << "Podaj Epsylon \n>";
 					cin >> Epsylon;
 					programowanie_dynamiczne();
-					//wyswietl_programowanie_dynamiczne();
+					wyswietl_programowanie_dynamiczne();
 				}
 				else
 				{
@@ -257,33 +262,36 @@ public:
 
 	void wyswietl_programowanie_dynamiczne()
 	{
-		bool log = true;
-		int wiersz = ilosc_elementow;
-		int kolumna = 5;
-		int rozmiar = 0;
-		do
+		Przedmiot *item = NULL;
+		int sumWaga = 0;
+		int sumWartosc = 0;
+
+		for (int i = ilosc_elementow * p_max; i >= 0 ; i--)
 		{
-			if (tablica_wag[wiersz][kolumna] == tablica_wag[wiersz - 1][kolumna])
+			for (int j = 0; j <= ilosc_elementow; j++)
 			{
-				wiersz--;
+				if (tablica_wag[j][i] < pojemnosc && tablica_wag[j][i] != 0)
+				{
+					item = &wektor_przedmiotow[j - 1];
+					item->wyswietl();
+					if ((i - item->wartosc) >= 0)
+					{
+						i -= item->wartosc;
+						j = 0;
+						sumWaga += item->rozmiar;
+						sumWartosc += item->wartosc;
+					}
+					else
+					{
+						break;
+					}
+				}
 			}
-			else
-			{
-				cout << "\n wartosc elementu\t" << wektor_przedmiotow[wiersz - 1].wartosc << "\t rozmiar \t" << wektor_przedmiotow[wiersz - 1].rozmiar;
-				rozmiar += wektor_przedmiotow[wiersz - 1].rozmiar;
+		}
 
-				kolumna = kolumna - wektor_przedmiotow[wiersz - 1].rozmiar;
-				wiersz--;
-			}
-			if (kolumna < 0 || wiersz == 0)
-			{
-				log = false;
-			}
+		cout << "2wartosc: " << sumWartosc << endl;
+		cout << "2waga: " << sumWaga << endl;
 
-		} while (log);
-
-		cout << "\n\nsumaryczna wartosc: " << tablica_wag[ilosc_elementow][pojemnosc]
-			<< "\nsumaryczny rozmiar " << rozmiar << endl << endl;
 	}
 
 	void wyswietl_przeglad_zupelny()
